@@ -1,6 +1,21 @@
 body {
+  font-family: 'Degular Regular' !important;
     background-color:#F18F4F;
 }
+
+@font-face {
+  font-family: "Degular Regular";
+  src: url("../../fonts/DegularDisplayDemo-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Degular Medium";
+  src: url("../../fonts/DegularDisplayDemo-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Degular Bold";
+  src: url("../../fonts/DegularDisplayDemo-Bold.woff") format("woff");
+}
+
 
 .container {
     display: flex;
