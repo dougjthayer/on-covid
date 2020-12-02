@@ -1,0 +1,14 @@
+body {
+    background-color:#F18F4F;
+}
+
+.container {
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.main-text {
+    font-size:40pt;
+    color:#8A2992;
+}
