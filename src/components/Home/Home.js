@@ -71,7 +71,19 @@ class Home extends React.Component {
         return (
             <div className="container">
                 <div className="main-text">
-                   Stuff Here Please
+                   Date: {this.state.generalData.date} <br />
+                   New Infections Today:  {this.state.generalData.newInfectionsToday} <br />
+                   New Infections Yesterday: {this.state.generalData.newInfectionsYesterday} <br />
+                   Increase in New Infections:  {this.state.generalData.newInfectionsPercentChange} <br />
+                   Deaths Today: {this.state.generalData.deathsToday} <br />
+                   Total Deaths: {this.state.generalData.deathsTotal} <br />
+                   Tests Completed: {this.state.generalData.testsCompleted} <br />
+                   Test Positivity Rate: {this.state.generalData.testsPositivity} <br />
+                   Hospitalized: {this.state.generalData.hospitalized} <br />
+                   ICU: {this.state.generalData.icu} <br />
+                   ICU Percent: {this.state.generalData.icuPercent} <br />
+                   Ventilator: {this.state.generalData.ventilator} <br />
+                   Ventilator Percent: {this.state.generalData.ventilatorPercent} <br />
                 </div>
             </div>
         )
