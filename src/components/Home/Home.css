@@ -5,15 +5,15 @@ body {
 
 @font-face {
   font-family: "Degular Regular";
-  src: url("../../fonts/DegularDisplayDemo-Regular.woff") format("woff");
+  src: url("../../fonts/DegularDisplay-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Degular Medium";
-  src: url("../../fonts/DegularDisplayDemo-Medium.woff") format("woff");
+  src: url("../../fonts/DegularDisplay-Medium.woff") format("woff");
 }
 @font-face {
   font-family: "Degular Bold";
-  src: url("../../fonts/DegularDisplayDemo-Bold.woff") format("woff");
+  src: url("../../fonts/DegularDisplay-Bold.woff") format("woff");
 }
 
 
