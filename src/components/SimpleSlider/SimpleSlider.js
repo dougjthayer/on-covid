@@ -14,8 +14,7 @@ class simpleSlider extends React.Component {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        className: 'slider',
-        centerMode: true
+        className: 'slider'
     };
     return (
     <div>
