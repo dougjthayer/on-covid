@@ -11,6 +11,7 @@ class simpleSlider extends React.Component {
         arrows: false,
         dots: true,
         infinite: true,
+        fade: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -18,34 +19,48 @@ class simpleSlider extends React.Component {
     };
     return (
     <div>
-      <span class="report-date">{this.props.generalData.date}</span>
         <Slider {...settings}>
             <div className="slider-slide slide-1">
+              <div class="slide-text">
+                <span class="report-date">{this.props.generalData.date}</span>
                 <span class="small-stat">{this.props.generalData.newInfectionsPercentChange}</span>
                 <span class="small-title">Increase today</span>
                 <span class="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
+              </div>
             </div>
             <div className="slider-slide slide-2">
+              <div class="slide-text">
+                <span class="report-date">{this.props.generalData.date}</span>
                 <span class="small-stat">{this.props.generalData.testsPositivity}</span>
                 <span class="small-title">Positive Today</span>
                 <span class="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
+              </div>
             </div>
             <div className="slider-slide slide-3">
+              <div class="slide-text">
+                <span class="report-date">{this.props.generalData.date}</span>
                 <span class="small-stat">{this.props.generalData.deathsToday}</span>
                 <span class="small-title">Deaths Today</span>
                 <span class="big-stat">{this.props.generalData.deathsTotal}</span>
                 <h2>Total Deaths</h2>
+              </div>
             </div>
             <div className="slider-slide slide-4">
+              <div class="slide-text">
+                <span class="report-date">{this.props.generalData.date}</span>
                 <span class="small-stat"><span>{this.props.generalData.icu}</span><span>{this.props.generalData.ventilator}</span></span>
                 <span class="small-title">ICU / Ventilator</span>
                 <span class="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
+              </div>
             </div>
             <div className="slider-slide slide-5">
+              <div class="slide-text">
+                <span class="report-date">{this.props.generalData.date}</span>
                 <h2>Cases by County</h2>
+              </div>
             </div>
         </Slider>
     </div>
