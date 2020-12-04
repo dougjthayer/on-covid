@@ -1,6 +1,25 @@
 import React from 'react';
 import Tabletop from 'tabletop';
+import SimpleSlider from '../SimpleSlider/SimpleSlider'
+
+// Import css files
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
+
+/* IF CHANGE TO PAPA PARSE IS NECESSARY
+CHANGE INIT FUNCTION
+    init(){
+        Papa.parse('https://docs.google.com/spreadsheets/d/14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic/pub?output=csv', {
+          download: true,
+          header: true,
+          complete: this.populateData
+          }
+        )
+    }
+ADD IMPORT
+    import Papa from 'papaparse';
+*/
 
 class Home extends React.Component {
     constructor(props){
@@ -67,11 +86,8 @@ class Home extends React.Component {
         })
     }
     
-    render(){
-        return (
-            <div className="container">
-                <div className="main-text">
-                   Date: {this.state.generalData.date} <br />
+    /*    
+    Date: {this.state.generalData.date} <br />
                    New Infections Today:  {this.state.generalData.newInfectionsToday} <br />
                    New Infections Yesterday: {this.state.generalData.newInfectionsYesterday} <br />
                    Increase in New Infections:  {this.state.generalData.newInfectionsPercentChange} <br />
@@ -84,6 +100,12 @@ class Home extends React.Component {
                    ICU Percent: {this.state.generalData.icuPercent} <br />
                    Ventilator: {this.state.generalData.ventilator} <br />
                    Ventilator Percent: {this.state.generalData.ventilatorPercent} <br />
+    */
+    render(){
+        return (
+            <div className="container">
+                <div className="main-text">
+                    <SimpleSlider generalData={this.state.generalData}/>
                 </div>
             </div>
         )

@@ -1,14 +1,37 @@
 body {
+  font-family: 'Degular Regular' !important;
     background-color:#F18F4F;
 }
 
+@font-face {
+  font-family: "Degular Regular";
+  src: url("../../fonts/DegularDisplayDemo-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Degular Medium";
+  src: url("../../fonts/DegularDisplayDemo-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Degular Bold";
+  src: url("../../fonts/DegularDisplayDemo-Bold.woff") format("woff");
+}
+
+
 .container {
     display: flex;
+    flex-direction:row;
     justify-content:center;
     align-items:center;
+    width: 100%;
 }
 
 .main-text {
-    font-size:40pt;
+    font-size:24pt;
     color:#8A2992;
+}
+
+.slider {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
 }
