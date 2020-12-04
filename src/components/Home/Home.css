@@ -44,7 +44,7 @@ body {
   position: absolute;
   top: 12px;
   left: 50%;
-  width: 100%;
+  width: calc(100% - 64px);
   max-width: 450px;
   height: 44px;
   transform: translateX(-50%);
@@ -154,7 +154,7 @@ body {
   top: 50%;
   left: 50%;
   display: block;
-  width: 100%;
+  width: calc(100% - 64px);
   max-width: 450px;
   height: 100vh;
   padding-top: 140px;
@@ -169,6 +169,7 @@ body {
   font-family: "Degular Medium";
   font-size: 18px;
   line-height: 21px;
+  margin-bottom: 110px;
 }
 .small-title {
   font-family: "Degular Medium";
@@ -178,7 +179,8 @@ body {
 .small-stat {
   font-family: "Degular Medium";
   font-size: 38px;
-  line-height: 46px;
+  line-height: 40px;
+  margin-top: 6px;
 }
 .big-stat {
   font-family: "Degular Regular";
@@ -190,4 +192,32 @@ h2 {
   font-size: 32px;
   line-height: 38px;
   margin-top: 0;
+}
+
+/* graph */
+.graph {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  left: 6px;
+  width: 50%;
+  height: 260px;
+}
+.graph span {
+  opacity: .24;
+  width: 12px;
+  background: #E1643A;
+  height: 250px;
+  margin-right: 18px;
+}
+.graph span:first-of-type {
+  margin-right: 0;
+}
+.graph span.bar-today {
+  opacity: 1;
 }

@@ -38,6 +38,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">Increase today</span>
                 <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
+                <div class="graph">
+                  <span class="bar-1 bar-today">&nbsp;</span>
+                  <span class="bar-2">&nbsp;</span>
+                  <span class="bar-3">&nbsp;</span>
+                  <span class="bar-4">&nbsp;</span>
+                  <span class="bar-5">&nbsp;</span>
+                  <span class="bar-6">&nbsp;</span>
+                  <span class="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-2">

@@ -26,7 +26,7 @@ class Home extends React.Component {
         super(props);
         this.state = {
             generalData: {
-                date: "",
+                date: "one sec pls",
                 newInfectionsToday: 0,
                 newInfectionsYesterday: 0,
                 newInfectionsPercentChange: 0,
