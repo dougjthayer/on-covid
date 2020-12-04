@@ -77,29 +77,30 @@ body {
 /* slides */
 .slick-slide {
   position: relative;
+  width: 100%;
   height: 100%;
   height: 100vh;
   margin-top: 105px;
   text-transform: lowercase;
 }
 
-.slide-1 {
+.slide1 {
   color: #E1643A;
   background: #2F1E39;
 }
-.slide-2 {
+.slide2 {
   color: #DAD34C;
   background: #755596;
 }
-.slide-3 {
+.slide3 {
   color: #E1643A;
   background: #DAD34C;
 }
-.slide-4 {
+.slide4 {
   color: #2F1E39;
   background: #E1643A;
 }
-.slide-5 {
+.slide5 {
   color: #E1643A;
   background: #E5D0E2;
 }
