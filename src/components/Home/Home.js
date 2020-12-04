@@ -87,8 +87,8 @@ class Home extends React.Component {
             }
         })
     }
-    
-    /*    
+
+    /*
     Date: {this.state.generalData.date} <br />
                    New Infections Today:  {this.state.generalData.newInfectionsToday} <br />
                    New Infections Yesterday: {this.state.generalData.newInfectionsYesterday} <br />

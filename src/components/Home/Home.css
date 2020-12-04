@@ -20,11 +20,12 @@ body {
 
 .container {
   position: relative;
-    display: flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
-    width: 100%;
+  display: flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  width: calc(100% - 64px);
+  margin: 0 32px;
 }
 
 .main-text {
@@ -119,17 +120,29 @@ body {
   color: #E1643A;
   background: #2F1E39;
 }
+.slide-1 svg path {
+  fill: #E1643A;
+}
 .slide-2 {
   color: #DAD34C;
   background: #755596;
+}
+.slide-2 svg path {
+  fill: #DAD34C;
 }
 .slide-3 {
   color: #E1643A;
   background: #DAD34C;
 }
+.slide-3 svg path {
+  fill: #E1643A;
+}
 .slide-4 {
   color: #2F1E39;
   background: #E1643A;
+}
+.slide-4 svg path {
+  fill: #2F1E39;
 }
 .slide-5 {
   color: #E1643A;
@@ -141,7 +154,8 @@ body {
   top: 50%;
   left: 50%;
   display: block;
-  width: 50%;
+  width: 100%;
+  max-width: 450px;
   height: 100vh;
   padding-top: 140px;
   transform: translate(-50%,-50%);
@@ -175,4 +189,5 @@ h2 {
   font-family: "Degular Bold";
   font-size: 32px;
   line-height: 38px;
+  margin-top: 0;
 }
