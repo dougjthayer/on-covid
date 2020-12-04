@@ -81,8 +81,8 @@ body {
   display: block;
   width: 50%;
   width: 50vw;
-  height: 100%;
-  height: 100vh;
+  height: calc(100% - 120px);
+  height: calc(100vh - 120px);
   z-index: 999;
 }
 .slick-arrow:before {
