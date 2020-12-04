@@ -57,31 +57,33 @@ class Home extends React.Component {
     }
 
     init(){
-        Tabletop.init({
+        var tabletop = Tabletop.init({
             key: "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic",
-            simpleSheet: true
+            simpleSheet: true,
+            callback: this.populateData
         })
-        .then((data) => this.populateData(data))
+        .then((data) => this.populateData(data, tabletop))
         .catch((err) => console.warn(err))
     }
 
-    populateData(newData){
-        console.log(newData);
+    populateData(data, tabletop){
+        let todaysData = tabletop.sheets("stats").elements[0];
+        console.log(tabletop.sheets("stats").elements[0]);
         this.setState({
             generalData: {
-                date: newData[0].date,
-                newInfectionsToday: newData[0].newInfectionsToday,
-                newInfectionsYesterday: newData[0].newInfectionsYesterday,
-                newInfectionsPercentChange: newData[0].newInfectionsPercentChange,
-                deathsToday: newData[0].deathsToday,
-                deathsTotal: newData[0].deathsTotal,
-                testsCompleted: newData[0].testsCompleted,
-                testsPositivity: newData[0].testsPositivity,
-                hospitalized: newData[0].hospitalized,
-                icu: newData[0].icu,
-                icuPercent: newData[0].icuPercent,
-                ventilator: newData[0].ventilator,
-                ventilatorPercent: newData[0].ventilatorPercent,
+                date: todaysData.date,
+                newInfectionsToday: todaysData.newInfectionsToday,
+                newInfectionsYesterday: todaysData.newInfectionsYesterday,
+                newInfectionsPercentChange: todaysData.newInfectionsPercentChange,
+                deathsToday: todaysData.deathsToday,
+                deathsTotal: todaysData.deathsTotal,
+                testsCompleted: todaysData.testsCompleted,
+                testsPositivity: todaysData.testsPositivity,
+                hospitalized: todaysData.hospitalized,
+                icu: todaysData.icu,
+                icuPercent: todaysData.icuPercent,
+                ventilator: todaysData.ventilator,
+                ventilatorPercent: todaysData.ventilatorPercent,
             }
         })
     }
