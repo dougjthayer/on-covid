@@ -42,9 +42,11 @@ body {
 .slick-dots {
   position: absolute;
   top: 12px;
-  left: 0;
+  left: 50%;
   width: 100%;
+  max-width: 450px;
   height: 44px;
+  transform: translateX(-50%);
 }
 
 .slick-dots li {
@@ -73,6 +75,27 @@ body {
 }
 .slick-dots li.slick-active button:before {
   opacity: 1;
+}
+
+.slick-arrow {
+  display: block;
+  width: 50%;
+  width: 50vw;
+  height: 100%;
+  height: 100vh;
+  z-index: 999;
+}
+.slick-arrow:before {
+  display: none;
+}
+.slick-prev {
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+.slick-next {
+  top: 50%;
+  left: 50%;
 }
 
 /* slides */
@@ -119,8 +142,37 @@ body {
   left: 50%;
   display: block;
   width: 50%;
+  height: 100vh;
+  padding-top: 140px;
   transform: translate(-50%,-50%);
 }
 .slide-text span {
   display: block;
+}
+
+/* typography */
+.report-date {
+  font-family: "Degular Medium";
+  font-size: 18px;
+  line-height: 21px;
+}
+.small-title {
+  font-family: "Degular Medium";
+  font-size: 14px;
+  line-height: 21px;
+}
+.small-stat {
+  font-family: "Degular Medium";
+  font-size: 38px;
+  line-height: 46px;
+}
+.big-stat {
+  font-family: "Degular Regular";
+  font-size: 96px;
+  line-height: 116px;
+}
+h2 {
+  font-family: "Degular Bold";
+  font-size: 32px;
+  line-height: 38px;
 }
