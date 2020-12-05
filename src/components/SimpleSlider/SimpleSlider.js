@@ -35,7 +35,7 @@ class simpleSlider extends React.Component {
                 </defs>
                 </svg>
                 <span className="small-stat">{this.props.generalData.newInfectionsPercentChange}</span>
-                <span className="small-title">Increase today</span>
+                <span className="small-title">{this.props.newInfectionsChangeText}</span>
                 <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
                 <div class="graph">
@@ -63,7 +63,7 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat">{this.props.generalData.testsPositivity}</span>
+                <span className="small-stat">{this.props.generalData.testsPositivity} %</span>
                 <span className="small-title">Positive Today</span>
                 <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
@@ -103,7 +103,7 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat"><span>{this.props.generalData.icu}</span><span>{this.props.generalData.ventilator}</span></span>
+                <span className="small-stat"><span>{this.props.generalData.icu} / {this.props.generalData.ventilator}</span></span>
                 <span className="small-title">ICU / Ventilator</span>
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>

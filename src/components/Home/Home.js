@@ -25,6 +25,8 @@ class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
+            newInfectionsChangeText: "",
             generalData: {
                 date: "one sec pls",
                 newInfectionsToday: 0,
@@ -57,12 +59,13 @@ class Home extends React.Component {
     }
 
     init(){
+        this.setState({ loading: true })
         var tabletop = Tabletop.init({
             key: "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic",
             simpleSheet: true,
             callback: this.populateData
         })
-        .then((data) => this.populateData(data, tabletop))
+        .then((data) => this.populateData(data, tabletop), this.setState({ loading: false }))
         .catch((err) => console.warn(err))
     }
 
@@ -86,6 +89,11 @@ class Home extends React.Component {
                 ventilatorPercent: todaysData.ventilatorPercent,
             }
         })
+        if (Math.sign(parseInt(todaysData.newInfectionsPercentChange)) === 1)
+            this.setState({ newInfectionsChangeText: "Increase today" })
+        else  
+            this.setState({ newInfectionsChangeText: "Decrease today" })
+        
     }
 
     /*
@@ -107,7 +115,7 @@ class Home extends React.Component {
         return (
             <div className="container">
                 <div className="main-text">
-                    <SimpleSlider generalData={this.state.generalData}/>
+                    <SimpleSlider generalData={this.state.generalData} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
                 </div>
             </div>
         )
