@@ -26,7 +26,10 @@ class Home extends React.Component {
         super(props);
         this.state = {
             loading: false,
+            //Increase today or Decrease today based on case growth from previous day
+            //Used in slide 1 of slider
             newInfectionsChangeText: "",
+            //Ontario-wide data
             generalData: {
                 date: "one sec pls",
                 newInfectionsToday: 0,
@@ -42,14 +45,20 @@ class Home extends React.Component {
                 ventilator: 0,
                 ventilatorPercent: 0,
             },
+            //Individual county data
             countyData: {
-
+                name: "",
+                rank: 0,
+                casesToday: 0
             }
         }
         this.init = this.init.bind(this);
         this.populateData = this.populateData.bind(this);
+        this.getUserLocation = this.getUserLocation.bind(this);
+        this.displayLocation = this.displayLocation.bind(this);
     }
-
+    
+    //runs init method on component mount
     componentDidMount(){
         this.init();
     }
@@ -58,6 +67,7 @@ class Home extends React.Component {
 
     }
 
+    //grabs data from Google spreadsheet and sends to populateData method
     init(){
         this.setState({ loading: true })
         var tabletop = Tabletop.init({
@@ -65,13 +75,19 @@ class Home extends React.Component {
             simpleSheet: true,
             callback: this.populateData
         })
-        .then((data) => this.populateData(data, tabletop), this.setState({ loading: false }))
+        .then((data) => this.populateData(data, tabletop))
         .catch((err) => console.warn(err))
     }
 
     populateData(data, tabletop){
+        //Grab today's stats from "stats" sheet tab
         let todaysData = tabletop.sheets("stats").elements[0];
-        console.log(tabletop.sheets("stats").elements[0]);
+        //Grab county stats from "countyRank" sheet tab
+        let countyData = tabletop.sheets("countyRank").all();
+        //Debug to console
+        console.log(todaysData);
+        console.log(countyData);
+        //Set Ontario-wide stats
         this.setState({
             generalData: {
                 date: todaysData.date,
@@ -89,32 +105,33 @@ class Home extends React.Component {
                 ventilatorPercent: todaysData.ventilatorPercent,
             }
         })
+        //Set text based on case growth, used in slide 1 of slider
         if (Math.sign(parseInt(todaysData.newInfectionsPercentChange)) === 1)
             this.setState({ newInfectionsChangeText: "Increase today" })
         else  
             this.setState({ newInfectionsChangeText: "Decrease today" })
-        
+        this.setState({ loading: false })
     }
 
-    /*
-    Date: {this.state.generalData.date} <br />
-                   New Infections Today:  {this.state.generalData.newInfectionsToday} <br />
-                   New Infections Yesterday: {this.state.generalData.newInfectionsYesterday} <br />
-                   Increase in New Infections:  {this.state.generalData.newInfectionsPercentChange} <br />
-                   Deaths Today: {this.state.generalData.deathsToday} <br />
-                   Total Deaths: {this.state.generalData.deathsTotal} <br />
-                   Tests Completed: {this.state.generalData.testsCompleted} <br />
-                   Test Positivity Rate: {this.state.generalData.testsPositivity} <br />
-                   Hospitalized: {this.state.generalData.hospitalized} <br />
-                   ICU: {this.state.generalData.icu} <br />
-                   ICU Percent: {this.state.generalData.icuPercent} <br />
-                   Ventilator: {this.state.generalData.ventilator} <br />
-                   Ventilator Percent: {this.state.generalData.ventilatorPercent} <br />
-    */
+    //Get user location if they allow it, pass it to display function
+    getUserLocation(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.displayLocation);
+        } else {
+           console.log("Geolocation not supported");
+        }
+    }
+
+    //Display user location, currently in console
+    displayLocation(position){
+        console.log("Lat: " + position.coords.latitude + " Long: " + position.coords.longitude);
+    }
+    
     render(){
         return (
             <div className="container">
                 <div className="main-text">
+                    {this.getUserLocation()}
                     <SimpleSlider generalData={this.state.generalData} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
                 </div>
             </div>
