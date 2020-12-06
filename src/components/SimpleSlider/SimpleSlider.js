@@ -17,6 +17,17 @@ class simpleSlider extends React.Component {
         slidesToScroll: 1,
         className: 'slider'
     };
+
+    let renderCountyData = this.props && this.props.countyData.length > 0 ?
+        this.props.countyData.map(item =>{
+        let name = item.countyName.replace(/_/g," ");
+        return(
+            <div>
+                <span>{item.rank}</span>
+                <span>{name}</span><span>{item.cases}</span>
+            </div>
+        )}) : <span></span>;
+
     return (
     <div>
         <Slider {...settings}>
@@ -113,11 +124,13 @@ class simpleSlider extends React.Component {
               <div className="slide-text">
                 <span className="report-date">{this.props.generalData.date}</span>
                 <h2>Cases by County</h2>
+                    <div>
+                        {renderCountyData}
+                    </div>
               </div>
             </div>
         </Slider>
     </div>
-
     );
   }
 }

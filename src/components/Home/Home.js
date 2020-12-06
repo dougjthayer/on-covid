@@ -46,11 +46,7 @@ class Home extends React.Component {
                 ventilatorPercent: 0,
             },
             //Individual county data
-            countyData: {
-                name: "",
-                rank: 0,
-                casesToday: 0
-            }
+            countyData: ""
         }
         this.init = this.init.bind(this);
         this.populateData = this.populateData.bind(this);
@@ -73,7 +69,8 @@ class Home extends React.Component {
         var tabletop = Tabletop.init({
             key: "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic",
             simpleSheet: true,
-            callback: this.populateData
+            callback: this.populateData,
+            orderby: "rank"
         })
         .then((data) => this.populateData(data, tabletop))
         .catch((err) => console.warn(err))
@@ -87,7 +84,8 @@ class Home extends React.Component {
         //Debug to console
         console.log(todaysData);
         console.log(countyData);
-        //Set Ontario-wide stats
+        //Set Ontario-wide stats and county stats
+        //County data is left as-is and passed to slider for sake of simplicity
         this.setState({
             generalData: {
                 date: todaysData.date,
@@ -103,8 +101,10 @@ class Home extends React.Component {
                 icuPercent: todaysData.icuPercent,
                 ventilator: todaysData.ventilator,
                 ventilatorPercent: todaysData.ventilatorPercent,
-            }
+            },
+            countyData: countyData
         })
+        
         //Set text based on case growth, used in slide 1 of slider
         if (Math.sign(parseInt(todaysData.newInfectionsPercentChange)) === 1)
             this.setState({ newInfectionsChangeText: "Increase today" })
@@ -132,7 +132,7 @@ class Home extends React.Component {
             <div className="container">
                 <div className="main-text">
                     {this.getUserLocation()}
-                    <SimpleSlider generalData={this.state.generalData} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
+                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
                 </div>
             </div>
         )
