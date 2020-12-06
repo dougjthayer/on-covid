@@ -171,6 +171,9 @@ body {
   line-height: 21px;
   margin-bottom: 110px;
 }
+.slide-5 .report-date {
+  margin-bottom: 48px;
+}
 .small-title {
   font-family: "Degular Medium";
   font-size: 14px;
@@ -181,6 +184,10 @@ body {
   font-size: 38px;
   line-height: 40px;
   margin-top: 6px;
+}
+.slide-4 .small-stat em {
+  font-style: normal;
+  font-size: 18px;
 }
 .big-stat {
   font-family: "Degular Regular";
@@ -220,4 +227,35 @@ h2 {
 }
 .graph span.bar-today {
   opacity: 1;
+}
+
+/* county list */
+.county-list li {
+  margin-bottom: 24px;
+  list-style-type: none;
+}
+
+.county-rank {
+  display: block;
+  width: 100%;
+  font-family: "Degular Regular";
+  font-size: 16px;
+  line-height: 18px;
+  text-align: left;
+}
+.county-name {
+  display: inline-block !important;
+  width: calc(100% - 48px);
+  font-family: "Degular Bold";
+  font-size: 32px;
+  line-height: 38px;
+  text-align: left;
+}
+.county-cases {
+  display: inline-block !important;
+  width: 48px;
+  font-family: "Degular Regular";
+  font-size: 32px;
+  line-height: 38px;
+  text-align: right;
 }

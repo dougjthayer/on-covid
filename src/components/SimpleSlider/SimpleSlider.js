@@ -15,17 +15,19 @@ class simpleSlider extends React.Component {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        className: 'slider'
+        className: 'slider',
+        adaptiveHeight: true
     };
 
     let renderCountyData = this.props && this.props.countyData.length > 0 ?
         this.props.countyData.map(item =>{
         let name = item.countyName.replace(/_/g," ");
         return(
-            <div>
-                <span>{item.rank}</span>
-                <span>{name}</span><span>{item.cases}</span>
-            </div>
+            <li class="county-list">
+                <span class="county-rank">{item.rank}</span>
+                <span class="county-name">{name}</span>
+                <span class="county-cases">{item.cases}</span>
+            </li>
         )}) : <span></span>;
 
     return (
@@ -114,7 +116,7 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat"><span>{this.props.generalData.icu} / {this.props.generalData.ventilator}</span></span>
+                <span className="small-stat">{this.props.generalData.icu} <em>{this.props.generalData.ventilator}</em></span>
                 <span className="small-title">ICU / Ventilator</span>
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
@@ -124,9 +126,9 @@ class simpleSlider extends React.Component {
               <div className="slide-text">
                 <span className="report-date">{this.props.generalData.date}</span>
                 <h2>Cases by County</h2>
-                    <div>
+                    <ul class="county-list">
                         {renderCountyData}
-                    </div>
+                    </ul>
               </div>
             </div>
         </Slider>
