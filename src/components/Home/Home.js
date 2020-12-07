@@ -46,7 +46,8 @@ class Home extends React.Component {
                 ventilatorPercent: 0,
             },
             //Individual county data
-            countyData: ""
+            countyData: "",
+            pastWeekInfections: ""
         }
         this.init = this.init.bind(this);
         this.populateData = this.populateData.bind(this);
@@ -81,11 +82,15 @@ class Home extends React.Component {
         let todaysData = tabletop.sheets("stats").elements[0];
         //Grab county stats from "countyRank" sheet tab
         let countyData = tabletop.sheets("countyRank").all();
+        //Grab historical data from past week from "" sheet tab
+        let weeksData = tabletop.sheets("dataSnapshot").all();
         //Debug to console
         console.log(todaysData);
         console.log(countyData);
+        console.log(weeksData);
         //Set Ontario-wide stats and county stats
         //County data is left as-is and passed to slider for sake of simplicity
+        //Weekly data is the same
         this.setState({
             generalData: {
                 date: todaysData.date,
@@ -102,7 +107,8 @@ class Home extends React.Component {
                 ventilator: todaysData.ventilator,
                 ventilatorPercent: todaysData.ventilatorPercent,
             },
-            countyData: countyData
+            countyData: countyData,
+            pastWeekInfections: weeksData
         })
         
         //Set text based on case growth, used in slide 1 of slider
@@ -132,7 +138,7 @@ class Home extends React.Component {
             <div className="container">
                 <div className="main-text">
                     {this.getUserLocation()}
-                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
+                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
                 </div>
             </div>
         )
