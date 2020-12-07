@@ -80,6 +80,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">Positive Today</span>
                 <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-3">
@@ -100,6 +109,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">Deaths Today</span>
                 <span className="big-stat">{this.props.generalData.deathsTotal}</span>
                 <h2>Total Deaths</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-4">
@@ -120,6 +138,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">ICU / Ventilator</span>
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-5">

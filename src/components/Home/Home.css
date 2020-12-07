@@ -219,7 +219,6 @@ h2 {
 .graph span {
   opacity: .24;
   width: 12px;
-  background: #E1643A;
   height: 250px;
   margin-right: 18px;
 }
@@ -228,6 +227,18 @@ h2 {
 }
 .graph span.bar-today {
   opacity: 1;
+}
+.slide-1 .graph span {
+  background: #E1643A;
+}
+.slide-2 .graph span {
+  background: #DAD34C;
+}
+.slide-3 .graph span {
+  background: #E1643A;
+}
+.slide-4 .graph span {
+  background: #2F1E39;
 }
 
 /* county list */
