@@ -188,6 +188,7 @@ body {
 .slide-4 .small-stat em {
   font-style: normal;
   font-size: 18px;
+  line-height: 18px;
 }
 .big-stat {
   font-family: "Degular Regular";
