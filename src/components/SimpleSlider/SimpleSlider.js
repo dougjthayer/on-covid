@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 class simpleSlider extends React.Component {
   render() {
     var settings = {
-        arrows: true,
+        arrows: false,
         dots: true,
         infinite: true,
         fade: true,
@@ -23,10 +23,10 @@ class simpleSlider extends React.Component {
         this.props.countyData.map(item =>{
         let name = item.countyName.replace(/_/g," ");
         return(
-            <li class="county-list">
-                <span class="county-rank">{item.rank}</span>
-                <span class="county-name">{name}</span>
-                <span class="county-cases">{item.cases}</span>
+            <li className="county-list">
+                <span className="county-rank">{item.rank}</span>
+                <span className="county-name">{name}</span>
+                <span className="county-cases">{item.cases}</span>
             </li>
         )}) : <span>Today's data not available yet :(</span>;
 
@@ -51,14 +51,14 @@ class simpleSlider extends React.Component {
                 <span className="small-title">{this.props.newInfectionsChangeText}</span>
                 <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
-                <div class="graph">
-                  <span class="bar-1 bar-today">&nbsp;</span>
-                  <span class="bar-2">&nbsp;</span>
-                  <span class="bar-3">&nbsp;</span>
-                  <span class="bar-4">&nbsp;</span>
-                  <span class="bar-5">&nbsp;</span>
-                  <span class="bar-6">&nbsp;</span>
-                  <span class="bar-7">&nbsp;</span>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -80,6 +80,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">Positive Today</span>
                 <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-3">
@@ -100,6 +109,15 @@ class simpleSlider extends React.Component {
                 <span className="small-title">Deaths Today</span>
                 <span className="big-stat">{this.props.generalData.deathsTotal}</span>
                 <h2>Total Deaths</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-4">
@@ -120,13 +138,22 @@ class simpleSlider extends React.Component {
                 <span className="small-title">ICU / Ventilator</span>
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
+                <div className="graph">
+                  <span className="bar-1 bar-today">&nbsp;</span>
+                  <span className="bar-2">&nbsp;</span>
+                  <span className="bar-3">&nbsp;</span>
+                  <span className="bar-4">&nbsp;</span>
+                  <span className="bar-5">&nbsp;</span>
+                  <span className="bar-6">&nbsp;</span>
+                  <span className="bar-7">&nbsp;</span>
+                </div>
               </div>
             </div>
             <div className="slider-slide slide-5">
               <div className="slide-text">
                 <span className="report-date">{this.props.generalData.date}</span>
                 <h2>Cases by County</h2>
-                    <ul class="county-list">
+                    <ul className="county-list">
                         {renderCountyData}
                     </ul>
               </div>
