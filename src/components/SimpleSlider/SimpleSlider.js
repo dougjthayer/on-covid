@@ -19,7 +19,7 @@ class simpleSlider extends React.Component {
         adaptiveHeight: true
     };
 
-    let renderCountyData = this.props && this.props.countyData.length > 0 ?
+    let renderCountyData = this.props && this.props.countyData.length > 0 && this.props.countyData[1].cases !== "#N/A" ?
         this.props.countyData.map(item =>{
         let name = item.countyName.replace(/_/g," ");
         return(
@@ -28,7 +28,7 @@ class simpleSlider extends React.Component {
                 <span class="county-name">{name}</span>
                 <span class="county-cases">{item.cases}</span>
             </li>
-        )}) : <span></span>;
+        )}) : <span>Today's data not available yet :(</span>;
 
     return (
     <div>
