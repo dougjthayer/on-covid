@@ -274,3 +274,16 @@ h2 {
   line-height: 38px;
   text-align: right;
 }
+
+/* no data warning */
+.no-data-show {
+
+}
+
+.no-data-hide {
+  
+}
+
+.no-data-text {
+
+}

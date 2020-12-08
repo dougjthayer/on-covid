@@ -18,6 +18,7 @@ class simpleSlider extends React.Component {
         super(props);
 
         this.state = {
+            noData: false,
             //Heights for bars in each slide's graph
             casesGraph: [],
             testsGraph: [],
@@ -27,6 +28,7 @@ class simpleSlider extends React.Component {
 
         this.getHighest = this.getHighest.bind(this);
         this.setGraphHeights = this.setGraphHeights.bind(this);
+        this.checkForData = this.checkForData.bind(this);
     }
 
     componentDidMount(){
@@ -38,6 +40,7 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("testsCompleted");
             this.setGraphHeights("deathsToday");
             this.setGraphHeights("hospitalized");
+            this.checkForData();
         }
         }, 1500);
     }
@@ -122,6 +125,21 @@ class simpleSlider extends React.Component {
         }
     }
 
+    checkForData(){
+        //Check if today's data is on the sheet yet
+        let length = this.props.pastWeekInfections.length - 1;
+        let today = Date.now();
+        let maybeToday = Date(this.props.pastWeekInfections[length].date);
+        console.log(today + " " + maybeToday);
+        if(this.props.pastWeekInfections[length].date === today
+            && this.props.pastWeekInfections[length].newInfectionsToday === null
+            && this.props.countyData[1].newInfectionsToday === null){
+                this.setState({ noData : true })
+            }
+            else
+                this.setState({ noData: false })
+        }
+
   render() {
     var settings = {
         arrows: true,
@@ -151,6 +169,10 @@ class simpleSlider extends React.Component {
     return (
     <div>
         <Slider {...settings}>
+            <div className={this.state.noData === true ? "no-data-hide" : "no-data-show"} >
+                <span className="no-data-text">today's data not available yet</span>
+                <span className="no-data-text">check back soon, we'll update as soon as it's here</span>
+            </div>
             <div className="slider-slide slide-1">
               <div className="slide-text">
                 <span className="report-date">{this.props.generalData.date}</span>
