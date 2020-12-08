@@ -47,6 +47,7 @@ class Home extends React.Component {
             },
             //Individual county data
             countyData: "",
+            //General data for the entire week
             pastWeekInfections: ""
         }
         this.init = this.init.bind(this);
@@ -71,23 +72,26 @@ class Home extends React.Component {
             key: "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic",
             simpleSheet: true,
             callback: this.populateData,
-            orderby: "rank"
+            orderby: "rank",
+            parseNumbers: true
         })
         .then((data) => this.populateData(data, tabletop))
         .catch((err) => console.warn(err))
     }
 
     populateData(data, tabletop){
-        //Grab today's stats from "stats" sheet tab
-        let todaysData = tabletop.sheets("stats").elements[0];
+        //Grab today's stats from "dataSnapshot" sheet tab, using last element for today's data
+        let todaysData = tabletop.sheets("dataSnapshot").elements[6];
         //Grab county stats from "countyRank" sheet tab
         let countyData = tabletop.sheets("countyRank").all();
-        //Grab historical data from past week from "" sheet tab
+        //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         //Debug to console
+        /*
         console.log(todaysData);
         console.log(countyData);
         console.log(weeksData);
+        */
         //Set Ontario-wide stats and county stats
         //County data is left as-is and passed to slider for sake of simplicity
         //Weekly data is the same
@@ -112,10 +116,10 @@ class Home extends React.Component {
         })
         
         //Set text based on case growth, used in slide 1 of slider
-        if (Math.sign(parseInt(todaysData.newInfectionsPercentChange)) === 1)
-            this.setState({ newInfectionsChangeText: "Increase today" })
+        if (Math.sign(parseFloat(todaysData.newInfectionsPercentChange)) === 1)
+            this.setState({ newInfectionsChangeText: "↑ Increase today" })
         else  
-            this.setState({ newInfectionsChangeText: "Decrease today" })
+            this.setState({ newInfectionsChangeText: "↓ Decrease today" })
         this.setState({ loading: false })
     }
 

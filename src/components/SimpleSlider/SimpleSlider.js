@@ -5,7 +5,123 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Probably unnecessary enum
+const param = {
+    INF: "newInfectionsToday",
+    TESTS: "testsCompleted",
+    DEATHS: "deathsToday",
+    HOSP: "hospitalized"
+}
+
 class simpleSlider extends React.Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            //Heights for bars in each slide's graph
+            casesGraph: [],
+            testsGraph: [],
+            deathsGraph: [],
+            hospGraph: []
+        }
+
+        this.getHighest = this.getHighest.bind(this);
+        this.setGraphHeights = this.setGraphHeights.bind(this);
+    }
+
+    componentDidMount(){
+        //Use 1.5sec timeout to make sure data has been fetched
+        setTimeout(() => {
+        //Check that component has received props and that props are not empty
+        if(this.props && this.props.pastWeekInfections.length > 0){
+            this.setGraphHeights("newInfectionsToday");
+            this.setGraphHeights("testsCompleted");
+            this.setGraphHeights("deathsToday");
+            this.setGraphHeights("hospitalized");
+        }
+        }, 1500);
+    }
+
+    getHighest(property){
+        //Copy data into new array to avoid mutating props
+        let sortedArray = [].concat(this.props.pastWeekInfections);
+        //Switch statement to account for all properties needed to be checked
+        switch(property){
+            case param.INF:
+                //Sort array by property
+                sortedArray.sort((a,b) => (a.newInfectionsToday > b.newInfectionsToday ? 1 : -1));
+            //Return highest sorted element and index of object in original array
+            return sortedArray[sortedArray.length - 1];
+
+            case param.TESTS:
+                sortedArray.sort((a,b) => (a.testsCompleted > b.testsCompleted ? 1 : -1));
+            return sortedArray[sortedArray.length - 1];
+
+            case param.DEATHS:
+                sortedArray.sort((a,b) => (a.deathsToday > b.deathsToday ? 1 : -1));
+            return sortedArray[sortedArray.length - 1];
+
+            case param.HOSP:
+                sortedArray.sort((a,b) => (a.hospitalized > b.hospitalized ? 1 : -1));
+            return sortedArray[sortedArray.length - 1];
+
+            default:
+                sortedArray.sort((a,b) => (a.newInfectionsToday > b.newInfectionsToday ? 1 : -1));
+            return sortedArray[sortedArray.length - 1];
+        }
+    }
+
+    setGraphHeights(property) {
+        //Get object with highest value for desired property
+        var highest = this.getHighest(property);
+        var array = [];
+
+        switch(property){
+            case param.INF:
+                //Loop through all objects, compare highest valued property to the rest and divide by 100 to get percentage value
+                //Add percentage values to array
+                for(let i=0;i<this.props.pastWeekInfections.length;i++){
+                    let height = (this.props.pastWeekInfections[i].newInfectionsToday / highest.newInfectionsToday) * 100;
+                    array.splice(i,0,height);
+                }
+                //Set array of percentages to state
+                this.setState({ casesGraph: array });
+            break;
+
+            case param.TESTS:
+                for(let i=0;i<this.props.pastWeekInfections.length;i++){
+                    let height = (this.props.pastWeekInfections[i].testsCompleted / highest.testsCompleted) * 100;
+                    array.splice(i,0,height);
+                }
+                this.setState({ testsGraph: array });
+            break;
+
+            case param.DEATHS:
+                for(let i=0;i<this.props.pastWeekInfections.length;i++){
+                    let height = (this.props.pastWeekInfections[i].deathsToday / highest.deathsToday) * 100;
+                    array.splice(i,0,height);
+                }
+                this.setState({ deathsGraph: array });
+            break;
+
+            case param.HOSP:
+                for(let i=0;i<this.props.pastWeekInfections.length;i++){
+                    let height = (this.props.pastWeekInfections[i].hospitalized / highest.hospitalized) * 100;
+                    array.splice(i,0,height);
+                }
+                this.setState({ hospGraph: array });
+            break;
+
+            default:
+                for(let i=0;i<this.props.pastWeekInfections.length;i++){
+                    let height = (this.props.pastWeekInfections[i].newInfectionsToday / highest.newInfectionsToday) * 100;
+                    array.splice(i,0,height);
+                }
+                this.setState({ casesGraph: array });
+            break;
+        }
+    }
+
   render() {
     var settings = {
         arrows: false,
@@ -19,8 +135,10 @@ class simpleSlider extends React.Component {
         adaptiveHeight: true
     };
 
+    //If props are received and not empty and not "#N/A" then render county data
     let renderCountyData = this.props && this.props.countyData.length > 0 && this.props.countyData[1].cases !== "#N/A" ?
         this.props.countyData.map(item =>{
+        //Replace underscores with spaces in county name
         let name = item.countyName.replace(/_/g," ");
         return(
             <li className="county-list">
@@ -28,7 +146,7 @@ class simpleSlider extends React.Component {
                 <span className="county-name">{name}</span>
                 <span className="county-cases">{item.cases}</span>
             </li>
-        )}) : <span>Today's data not available yet :(</span>;
+        )}) : <span>Today's data not available yet :(</span>; //If data is not available then display message
 
     return (
     <div>
@@ -52,13 +170,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today">&nbsp;</span>
-                  <span className="bar-2">&nbsp;</span>
-                  <span className="bar-3">&nbsp;</span>
-                  <span className="bar-4">&nbsp;</span>
-                  <span className="bar-5">&nbsp;</span>
-                  <span className="bar-6">&nbsp;</span>
-                  <span className="bar-7">&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[0]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.casesGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.casesGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-4" style={{height: `${this.state.casesGraph[3]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.casesGraph[4]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.casesGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -81,13 +199,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today">&nbsp;</span>
-                  <span className="bar-2">&nbsp;</span>
-                  <span className="bar-3">&nbsp;</span>
-                  <span className="bar-4">&nbsp;</span>
-                  <span className="bar-5">&nbsp;</span>
-                  <span className="bar-6">&nbsp;</span>
-                  <span className="bar-7">&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.testsGraph[0]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.testsGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.testsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-4" style={{height: `${this.state.testsGraph[3]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.testsGraph[4]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.testsGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.testsGraph[6]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -110,13 +228,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.deathsTotal}</span>
                 <h2>Total Deaths</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today">&nbsp;</span>
-                  <span className="bar-2">&nbsp;</span>
-                  <span className="bar-3">&nbsp;</span>
-                  <span className="bar-4">&nbsp;</span>
-                  <span className="bar-5">&nbsp;</span>
-                  <span className="bar-6">&nbsp;</span>
-                  <span className="bar-7">&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.deathsGraph[0]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.deathsGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.deathsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-4" style={{height: `${this.state.deathsGraph[3]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.deathsGraph[4]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.deathsGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.deathsGraph[6]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -139,13 +257,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today">&nbsp;</span>
-                  <span className="bar-2">&nbsp;</span>
-                  <span className="bar-3">&nbsp;</span>
-                  <span className="bar-4">&nbsp;</span>
-                  <span className="bar-5">&nbsp;</span>
-                  <span className="bar-6">&nbsp;</span>
-                  <span className="bar-7">&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.hospGraph[0]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.hospGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.hospGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-4" style={{height: `${this.state.hospGraph[3]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.hospGraph[4]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.hospGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.hospGraph[6]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
