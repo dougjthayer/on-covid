@@ -169,11 +169,11 @@ class simpleSlider extends React.Component {
     return (
     <div>
         <Slider {...settings}>
+            <div className="slider-slide slide-1">
             <div className={this.state.noData === true ? "no-data-hide" : "no-data-show"} >
-                <span className="no-data-text">today's data not available yet</span>
+                <span className="no-data-heading">today's data not available yet</span>
                 <span className="no-data-text">check back soon, we'll update as soon as it's here</span>
             </div>
-            <div className="slider-slide slide-1">
               <div className="slide-text">
                 <span className="report-date">{this.props.generalData.date}</span>
                 <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
