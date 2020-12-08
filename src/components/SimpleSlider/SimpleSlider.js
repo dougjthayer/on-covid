@@ -124,7 +124,7 @@ class simpleSlider extends React.Component {
 
   render() {
     var settings = {
-        arrows: false,
+        arrows: true,
         dots: true,
         infinite: true,
         fade: true,

@@ -242,6 +242,9 @@ h2 {
 }
 
 /* county list */
+.county-list {
+  padding: 0;
+}
 .county-list li {
   margin-bottom: 24px;
   list-style-type: none;
