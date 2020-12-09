@@ -290,6 +290,11 @@ h2 {
   display: block;
   width: 100%;
 }
+
+.no-data-hide {
+  display: none;
+}
+
 .no-data-heading {
   font-family: "Degular Bold";
   font-size: 16px;
@@ -298,4 +303,18 @@ h2 {
 .no-data-text {
   font-size: 14px;
   line-height: 16px;
+}
+
+/* about button */
+.about-button {
+  position: absolute;
+  z-index:1;
+  width: 32px;
+  height: 32px;
+  left: 80%;
+  top: 95%;
+}
+
+.about-button:hover {
+  cursor: pointer;
 }

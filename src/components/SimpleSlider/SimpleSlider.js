@@ -19,6 +19,7 @@ class simpleSlider extends React.Component {
 
         this.state = {
             noData: false,
+            modalToggle: false,
             newInfectionsChangeText: "",
             newInfectionsPercentChange: "",
             //Heights for bars in each slide's graph
@@ -32,6 +33,7 @@ class simpleSlider extends React.Component {
         this.setGraphHeights = this.setGraphHeights.bind(this);
         this.checkForData = this.checkForData.bind(this);
         this.infectionsChange = this.infectionsChange.bind(this);
+        this.toggleAboutModal = this.toggleAboutModal.bind(this);
     }
 
     componentDidMount(){
@@ -160,6 +162,10 @@ class simpleSlider extends React.Component {
             }
         }
 
+        toggleAboutModal(){
+            this.setState({modalToggle: !this.state.modalToggle})
+        }
+
   render() {
     var settings = {
         arrows: true,
@@ -188,7 +194,11 @@ class simpleSlider extends React.Component {
 
     return (
     <div>
-        <div className={this.state.noData === true ? "no-data-hide" : "no-data-show"} >
+        <button className="about-button" onClick={this.toggleAboutModal}>?</button>
+        <div className={this.state.modalToggle === false ? "about-modal-hide" : "about-modal-show"}>
+
+        </div>
+        <div className={this.state.noData === true ? "no-data-show" : "no-data-hide"} >
             <span className="no-data-heading">today's data not available yet</span>
             <span className="no-data-text">check back soon, we'll update as soon as it's here</span>
         </div>
