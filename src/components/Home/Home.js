@@ -28,7 +28,7 @@ class Home extends React.Component {
             loading: false,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
-            newInfectionsChangeText: "",
+            newInfectionsIncrease: false,
             //Ontario-wide data
             generalData: {
                 date: "one sec pls",
@@ -115,11 +115,13 @@ class Home extends React.Component {
             pastWeekInfections: weeksData
         })
         
+        //"↓ Decrease today" 
+        //"↑ Increase today"
         //Set text based on case growth, used in slide 1 of slider
         if (Math.sign(parseFloat(todaysData.newInfectionsPercentChange)) === 1)
-            this.setState({ newInfectionsChangeText: "↑ Increase today" })
+            this.setState({ newInfectionsIncrease: true })
         else  
-            this.setState({ newInfectionsChangeText: "↓ Decrease today" })
+            this.setState({ newInfectionsIncrease: false })
         this.setState({ loading: false })
     }
 
@@ -140,10 +142,8 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                <div className="main-text">
                     {this.getUserLocation()}
-                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsChangeText={this.state.newInfectionsChangeText}/>
-                </div>
+                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>
             </div>
         )
     }

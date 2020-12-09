@@ -19,6 +19,8 @@ class simpleSlider extends React.Component {
 
         this.state = {
             noData: false,
+            newInfectionsChangeText: "",
+            newInfectionsPercentChange: "",
             //Heights for bars in each slide's graph
             casesGraph: [],
             testsGraph: [],
@@ -29,10 +31,11 @@ class simpleSlider extends React.Component {
         this.getHighest = this.getHighest.bind(this);
         this.setGraphHeights = this.setGraphHeights.bind(this);
         this.checkForData = this.checkForData.bind(this);
+        this.infectionsChange = this.infectionsChange.bind(this);
     }
 
     componentDidMount(){
-        //Use 1.5sec timeout to make sure data has been fetched
+        //Use 2.5sec timeout to make sure data has been fetched
         setTimeout(() => {
         //Check that component has received props and that props are not empty
         if(this.props && this.props.pastWeekInfections.length > 0){
@@ -41,8 +44,9 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("deathsToday");
             this.setGraphHeights("hospitalized");
             this.checkForData();
+            this.infectionsChange();
         }
-        }, 1500);
+        }, 2500);
     }
 
     getHighest(property){
@@ -88,6 +92,7 @@ class simpleSlider extends React.Component {
                     array.splice(i,0,height);
                 }
                 //Set array of percentages to state
+                console.log(array);
                 this.setState({ casesGraph: array });
             break;
 
@@ -140,6 +145,21 @@ class simpleSlider extends React.Component {
                 this.setState({ noData: false })
         }
 
+        infectionsChange(){
+            if(this.props.newInfectionsIncrease === true){
+                this.setState({ 
+                    newInfectionsChangeText: "Increase today",
+                    newInfectionsPercentChange: "↑" + this.props.generalData.newInfectionsPercentChange
+                })
+
+            } else {
+                this.setState({ 
+                    newInfectionsChangeText: "Decrease today",
+                    newInfectionsPercentChange: "↓" + this.props.generalData.newInfectionsPercentChange
+                })
+            }
+        }
+
   render() {
     var settings = {
         arrows: true,
@@ -187,18 +207,18 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat">{this.props.generalData.newInfectionsPercentChange}</span>
-                <span className="small-title">{this.props.newInfectionsChangeText}</span>
+                <span className="small-stat">{this.state.newInfectionsPercentChange}</span>
+                <span className="small-title">{this.state.newInfectionsChangeText}</span>
                 <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[0]}%` }}>&nbsp;</span>
-                  <span className="bar-2" style={{height: `${this.state.casesGraph[1]}%` }}>&nbsp;</span>
-                  <span className="bar-3" style={{height: `${this.state.casesGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.casesGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.casesGraph[4]}%` }}>&nbsp;</span>
                   <span className="bar-4" style={{height: `${this.state.casesGraph[3]}%` }}>&nbsp;</span>
-                  <span className="bar-5" style={{height: `${this.state.casesGraph[4]}%` }}>&nbsp;</span>
-                  <span className="bar-6" style={{height: `${this.state.casesGraph[5]}%` }}>&nbsp;</span>
-                  <span className="bar-7" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.casesGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.casesGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.casesGraph[0]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -221,13 +241,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                 <h2>Tests Completed</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today" style={{height: `${this.state.testsGraph[0]}%` }}>&nbsp;</span>
-                  <span className="bar-2" style={{height: `${this.state.testsGraph[1]}%` }}>&nbsp;</span>
-                  <span className="bar-3" style={{height: `${this.state.testsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.testsGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.testsGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.testsGraph[4]}%` }}>&nbsp;</span>
                   <span className="bar-4" style={{height: `${this.state.testsGraph[3]}%` }}>&nbsp;</span>
-                  <span className="bar-5" style={{height: `${this.state.testsGraph[4]}%` }}>&nbsp;</span>
-                  <span className="bar-6" style={{height: `${this.state.testsGraph[5]}%` }}>&nbsp;</span>
-                  <span className="bar-7" style={{height: `${this.state.testsGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.testsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.testsGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.testsGraph[0]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -250,13 +270,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.deathsTotal}</span>
                 <h2>Total Deaths</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today" style={{height: `${this.state.deathsGraph[0]}%` }}>&nbsp;</span>
-                  <span className="bar-2" style={{height: `${this.state.deathsGraph[1]}%` }}>&nbsp;</span>
-                  <span className="bar-3" style={{height: `${this.state.deathsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.deathsGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.deathsGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.deathsGraph[4]}%` }}>&nbsp;</span>
                   <span className="bar-4" style={{height: `${this.state.deathsGraph[3]}%` }}>&nbsp;</span>
-                  <span className="bar-5" style={{height: `${this.state.deathsGraph[4]}%` }}>&nbsp;</span>
-                  <span className="bar-6" style={{height: `${this.state.deathsGraph[5]}%` }}>&nbsp;</span>
-                  <span className="bar-7" style={{height: `${this.state.deathsGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.deathsGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.deathsGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.deathsGraph[0]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -279,13 +299,13 @@ class simpleSlider extends React.Component {
                 <span className="big-stat">{this.props.generalData.hospitalized}</span>
                 <h2>Hospitalized</h2>
                 <div className="graph">
-                  <span className="bar-1 bar-today" style={{height: `${this.state.hospGraph[0]}%` }}>&nbsp;</span>
-                  <span className="bar-2" style={{height: `${this.state.hospGraph[1]}%` }}>&nbsp;</span>
-                  <span className="bar-3" style={{height: `${this.state.hospGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-1 bar-today" style={{height: `${this.state.hospGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-2" style={{height: `${this.state.hospGraph[5]}%` }}>&nbsp;</span>
+                  <span className="bar-3" style={{height: `${this.state.hospGraph[4]}%` }}>&nbsp;</span>
                   <span className="bar-4" style={{height: `${this.state.hospGraph[3]}%` }}>&nbsp;</span>
-                  <span className="bar-5" style={{height: `${this.state.hospGraph[4]}%` }}>&nbsp;</span>
-                  <span className="bar-6" style={{height: `${this.state.hospGraph[5]}%` }}>&nbsp;</span>
-                  <span className="bar-7" style={{height: `${this.state.hospGraph[6]}%` }}>&nbsp;</span>
+                  <span className="bar-5" style={{height: `${this.state.hospGraph[2]}%` }}>&nbsp;</span>
+                  <span className="bar-6" style={{height: `${this.state.hospGraph[1]}%` }}>&nbsp;</span>
+                  <span className="bar-7" style={{height: `${this.state.hospGraph[0]}%` }}>&nbsp;</span>
                 </div>
               </div>
             </div>
