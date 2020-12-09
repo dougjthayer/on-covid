@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
 
-const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
+// const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
 const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
 
 /* IF CHANGE TO PAPA PARSE IS NECESSARY
