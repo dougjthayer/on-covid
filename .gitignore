@@ -8,3 +8,4 @@ lerna-debug.log*
 
 # Cache
 .eslintcache
+node_modules/
