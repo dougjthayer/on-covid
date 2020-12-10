@@ -197,7 +197,7 @@ h2 {
   line-height: 38px;
   margin-top: 0;
 }
-.record {
+.record-show {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -210,6 +210,10 @@ h2 {
   /* background: #121212; */
   /* padding: 4px 8px; */
   /* border-radius: 12px; */
+}
+
+.record-hide {
+  display: none;
 }
 
 /* graph */
