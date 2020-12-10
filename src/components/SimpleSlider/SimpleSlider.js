@@ -218,7 +218,7 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em>{this.state.newInfectionsPercentChange}</span>
+                <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em> {this.props.generalData.newInfectionsPercentChange}</span>
                 <span className="small-title">{this.state.newInfectionsChangeText}</span>
                 <span className="big-stat"><em className={this.props.generalData.recordHigh === "true" ? "record-show" : "record-hide"}>new daily record</em> {this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
