@@ -90,11 +90,11 @@ class Home extends React.Component {
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         //Debug to console
-        /*
-        console.log(todaysData);
-        console.log(countyData);
-        console.log(weeksData);
-        */
+        
+        // console.log(todaysData);
+        // console.log(countyData);
+        // console.log(weeksData);
+        
         //Set Ontario-wide stats and county stats
         //County data is left as-is and passed to slider for sake of simplicity
         //Weekly data is the same
@@ -113,6 +113,7 @@ class Home extends React.Component {
                 icuPercent: todaysData.icuPercent,
                 ventilator: todaysData.ventilator,
                 ventilatorPercent: todaysData.ventilatorPercent,
+                recordHigh: todaysData.recordHigh
             },
             countyData: countyData,
             pastWeekInfections: weeksData

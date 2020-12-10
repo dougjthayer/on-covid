@@ -21,6 +21,7 @@ class simpleSlider extends React.Component {
             noData: false,
             modalToggle: false,
             newInfectionsChangeText: "",
+            newInfectionsChangeArrow: "",
             newInfectionsPercentChange: "",
             //Heights for bars in each slide's graph
             casesGraph: [],
@@ -47,8 +48,9 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("hospitalized");
             this.checkForData();
             this.infectionsChange();
+            console.log(this.props.generalData.recordHigh);
         }
-        }, 3500);
+        }, 2500);
     }
 
     getHighest(property){
@@ -94,7 +96,6 @@ class simpleSlider extends React.Component {
                     array.splice(i,0,height);
                 }
                 //Set array of percentages to state
-                console.log(array);
                 this.setState({ casesGraph: array });
             break;
 
@@ -136,8 +137,8 @@ class simpleSlider extends React.Component {
         //Check if today's data is on the sheet yet
         let length = this.props.pastWeekInfections.length - 1;
         let today = Date.now();
-        let maybeToday = Date(this.props.pastWeekInfections[length].date);
-        console.log(today + " " + maybeToday);
+        //let maybeToday = Date(this.props.pastWeekInfections[length].date);
+        //console.log(today + " " + maybeToday);
         if(this.props.pastWeekInfections[length].date === today
             && this.props.pastWeekInfections[length].newInfectionsToday === null
             && this.props.countyData[1].newInfectionsToday === null){
@@ -151,19 +152,19 @@ class simpleSlider extends React.Component {
             if(this.props.newInfectionsIncrease === true){
                 this.setState({
                     newInfectionsChangeText: "Increase today",
-                    newInfectionsPercentChange: "↑" + this.props.generalData.newInfectionsPercentChange
+                    newInfectionsChangeArrow: "↑"
                 })
 
             } else {
                 this.setState({
                     newInfectionsChangeText: "Decrease today",
-                    newInfectionsPercentChange: "↓" + this.props.generalData.newInfectionsPercentChange
+                    newInfectionsChangeArrow: "↓"
                 })
             }
         }
 
         toggleAboutModal(){
-            this.setState({modalToggle: !this.state.modalToggle})
+            this.setState({ modalToggle: !this.state.modalToggle })
         }
 
   render() {
@@ -217,9 +218,9 @@ class simpleSlider extends React.Component {
                 </clipPath>
                 </defs>
                 </svg>
-                <span className="small-stat">{this.state.newInfectionsPercentChange}</span>
+                <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em>{this.state.newInfectionsPercentChange}</span>
                 <span className="small-title">{this.state.newInfectionsChangeText}</span>
-                <span className="big-stat"><em class="record">new daily record</em> {this.props.generalData.newInfectionsToday}</span>
+                <span className="big-stat"><em className={this.props.generalData.recordHigh === "true" ? "record-show" : "record-hide"}>new daily record</em> {this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
                 <div className="graph">
                   <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
