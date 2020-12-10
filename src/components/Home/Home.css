@@ -180,6 +180,7 @@ body {
   line-height: 40px;
   margin-top: 6px;
 }
+.slide-1 .small-stat em,
 .slide-4 .small-stat em {
   font-style: normal;
   font-size: 18px;
