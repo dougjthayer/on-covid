@@ -186,6 +186,7 @@ body {
   line-height: 18px;
 }
 .big-stat {
+  position: relative;
   font-family: "Degular Regular";
   font-size: 96px;
   line-height: 116px;
@@ -195,6 +196,20 @@ h2 {
   font-size: 32px;
   line-height: 38px;
   margin-top: 0;
+}
+.record {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-family: "Degular Medium";
+  font-size: 12px;
+  line-height: 12px;
+  color: #E1643A;
+  /* background: #121212; */
+  /* padding: 4px 8px; */
+  /* border-radius: 12px; */
 }
 
 /* graph */

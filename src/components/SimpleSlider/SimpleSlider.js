@@ -149,13 +149,13 @@ class simpleSlider extends React.Component {
 
         infectionsChange(){
             if(this.props.newInfectionsIncrease === true){
-                this.setState({ 
+                this.setState({
                     newInfectionsChangeText: "Increase today",
                     newInfectionsPercentChange: "↑" + this.props.generalData.newInfectionsPercentChange
                 })
 
             } else {
-                this.setState({ 
+                this.setState({
                     newInfectionsChangeText: "Decrease today",
                     newInfectionsPercentChange: "↓" + this.props.generalData.newInfectionsPercentChange
                 })
@@ -219,7 +219,7 @@ class simpleSlider extends React.Component {
                 </svg>
                 <span className="small-stat">{this.state.newInfectionsPercentChange}</span>
                 <span className="small-title">{this.state.newInfectionsChangeText}</span>
-                <span className="big-stat">{this.props.generalData.newInfectionsToday}</span>
+                <span className="big-stat"><em class="record">new daily record</em> {this.props.generalData.newInfectionsToday}</span>
                 <h2>New Infections</h2>
                 <div className="graph">
                   <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
