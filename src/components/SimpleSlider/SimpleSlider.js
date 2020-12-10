@@ -48,7 +48,7 @@ class simpleSlider extends React.Component {
             this.checkForData();
             this.infectionsChange();
         }
-        }, 2500);
+        }, 3500);
     }
 
     getHighest(property){
