@@ -41,6 +41,9 @@ body {
   justify-content: center;
   align-items: center;
   height: calc(100% - 284px);
+  background-size: 380px 200px;
+  background-repeat: no-repeat;
+  background-position: 50% 60%;
 }
 .slide-5 .sb {
   display: block;
@@ -150,12 +153,18 @@ body {
   color: #E1643A;
   background: #2F1E39;
 }
+.slide-1 .sb {
+  background-image: url('../../img/marker1.png');
+}
 .slide-1 svg path {
   fill: #E1643A;
 }
 .slide-2 {
   color: #DAD34C;
   background: #755596;
+}
+.slide-2 .sb {
+  background-image: url('../../img/marker2.png');
 }
 .slide-2 svg path {
   fill: #DAD34C;
@@ -164,12 +173,18 @@ body {
   color: #E1643A;
   background: #DAD34C;
 }
+.slide-3 .sb {
+  background-image: url('../../img/marker3.png');
+}
 .slide-3 svg path {
   fill: #E1643A;
 }
 .slide-4 {
   color: #2F1E39;
   background: #E1643A;
+}
+.slide-4 .sb {
+  background-image: url('../../img/marker4.png');
 }
 .slide-4 svg path {
   fill: #2F1E39;
