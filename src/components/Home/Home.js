@@ -58,7 +58,7 @@ class Home extends React.Component {
         this.getUserLocation = this.getUserLocation.bind(this);
         this.displayLocation = this.displayLocation.bind(this);
     }
-    
+
     //runs init method on component mount
     componentDidMount(){
         this.init();
@@ -90,11 +90,11 @@ class Home extends React.Component {
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         //Debug to console
-        
+
         // console.log(todaysData);
         // console.log(countyData);
         // console.log(weeksData);
-        
+
         //Set Ontario-wide stats and county stats
         //County data is left as-is and passed to slider for sake of simplicity
         //Weekly data is the same
@@ -118,13 +118,13 @@ class Home extends React.Component {
             countyData: countyData,
             pastWeekInfections: weeksData
         })
-        
-        //"↓ Decrease today" 
+
+        //"↓ Decrease today"
         //"↑ Increase today"
         //Set text based on case growth, used in slide 1 of slider
         if (Math.sign(parseFloat(todaysData.newInfectionsPercentChange)) === 1)
             this.setState({ newInfectionsIncrease: true })
-        else  
+        else
             this.setState({ newInfectionsIncrease: false })
         this.setState({ loading: false })
     }
@@ -142,12 +142,12 @@ class Home extends React.Component {
     displayLocation(position){
         console.log("Lat: " + position.coords.latitude + " Long: " + position.coords.longitude);
     }
-    
+
     render(){
         return (
             <div className="container">
                     {this.getUserLocation()}
-                    { this.state.loading === true && this.state.generalData.date === "one sec pls" ? <span>Loading...</span> : <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true && this.state.generalData.date === "one sec pls" ? <span class="loader">Loading...</span> : <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }

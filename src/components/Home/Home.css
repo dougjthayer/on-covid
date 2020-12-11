@@ -436,3 +436,14 @@ h2 {
 .modal-answer a:hover {
   color: #E1643A;
 }
+
+/* loader */
+.loader {
+  display: block;
+  height: 32px;
+  width: 32px;
+  background-image: url('../../img/loader.gif');
+  background-position: 50% 50%;
+  background-size: 32px 32px;
+  text-indent: -9999px;
+}
