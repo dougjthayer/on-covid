@@ -38,8 +38,6 @@ class simpleSlider extends React.Component {
     }
 
     componentDidMount(){
-        //Use 2.5sec timeout to make sure data has been fetched
-        setTimeout(() => {
         //Check that component has received props and that props are not empty
         if(this.props && this.props.pastWeekInfections.length > 0){
             this.setGraphHeights("newInfectionsToday");
@@ -48,9 +46,7 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("hospitalized");
             this.checkForData();
             this.infectionsChange();
-            console.log(this.props.generalData.recordHigh);
         }
-        }, 2500);
     }
 
     getHighest(property){
@@ -146,26 +142,25 @@ class simpleSlider extends React.Component {
             }
             else
                 this.setState({ noData: false })
-        }
+    }
 
-        infectionsChange(){
-            if(this.props.newInfectionsIncrease === true){
-                this.setState({
-                    newInfectionsChangeText: "Increase today",
-                    newInfectionsChangeArrow: "↑"
-                })
-
-            } else {
-                this.setState({
-                    newInfectionsChangeText: "Decrease today",
-                    newInfectionsChangeArrow: "↓"
-                })
-            }
+    infectionsChange(){
+        if(this.props.newInfectionsIncrease === true){
+            this.setState({
+                newInfectionsChangeText: "Increase today",
+                newInfectionsChangeArrow: "↑"
+            })
+        } else {
+            this.setState({
+                newInfectionsChangeText: "Decrease today",
+                newInfectionsChangeArrow: "↓"
+            })
         }
+    }
 
-        toggleAboutModal(){
-            this.setState({ modalToggle: !this.state.modalToggle })
-        }
+    toggleAboutModal(){
+        this.setState({ modalToggle: !this.state.modalToggle })
+    }
 
   render() {
     var settings = {
@@ -184,6 +179,11 @@ class simpleSlider extends React.Component {
     let vh = window.innerHeight * 0.01;
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    //Remove negative sign if change is negative
+    let infectionPercentChange = String(this.props.generalData.newInfectionsPercentChange);
+    infectionPercentChange = infectionPercentChange.replace("-","");
+
 
     //If props are received and not empty and not "#N/A" then render county data
     let renderCountyData = this.props && this.props.countyData.length > 0 && this.props.countyData[1].cases !== "#N/A" ?
@@ -252,7 +252,7 @@ class simpleSlider extends React.Component {
                       </clipPath>
                       </defs>
                     </svg>
-                    <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em> {this.props.generalData.newInfectionsPercentChange}</span>
+                    <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em> {infectionPercentChange}</span>
                     <span className="small-title">{this.state.newInfectionsChangeText}</span>
                     <span className="big-stat"><em className={this.props.generalData.recordHigh === "true" ? "record-show" : "record-hide"}>new daily record</em> {this.props.generalData.newInfectionsToday}</span>
                     <h2>New Infections</h2>
@@ -289,7 +289,7 @@ class simpleSlider extends React.Component {
                       </clipPath>
                       </defs>
                     </svg>
-                    <span className="small-stat">{this.props.generalData.testsPositivity} %</span>
+                    <span className="small-stat">{this.props.generalData.testsPositivity}%</span>
                     <span className="small-title">Positive Today</span>
                     <span className="big-stat">{this.props.generalData.testsCompleted}</span>
                     <h2>Tests Completed</h2>

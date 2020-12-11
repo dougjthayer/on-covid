@@ -147,7 +147,7 @@ class Home extends React.Component {
         return (
             <div className="container">
                     {this.getUserLocation()}
-                    <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>
+                    { this.state.loading === true && this.state.generalData.date === "one sec pls" ? <span>Loading...</span> : <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }
