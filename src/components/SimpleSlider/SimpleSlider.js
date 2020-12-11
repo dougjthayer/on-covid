@@ -82,13 +82,14 @@ class simpleSlider extends React.Component {
         //Get object with highest value for desired property
         var highest = this.getHighest(property);
         var array = [];
+        let parsedArray = [].concat(this.props.pastWeekInfections);
 
         switch(property){
             case param.INF:
                 //Loop through all objects, compare highest valued property to the rest and divide by 100 to get percentage value
                 //Add percentage values to array
                 for(let i=0;i<this.props.pastWeekInfections.length;i++){
-                    let height = (this.props.pastWeekInfections[i].newInfectionsToday / highest.newInfectionsToday) * 100;
+                    let height = (parsedArray[i].newInfectionsToday / highest.newInfectionsToday) * 100;
                     array.splice(i,0,height);
                 }
                 //Set array of percentages to state
@@ -233,7 +234,7 @@ class simpleSlider extends React.Component {
             <span className="no-data-heading">today's data not available yet</span>
             <span className="no-data-text">check back soon, we'll update as soon as it's here</span>
         </div>
-        <Slider {...settings}>
+        <Slider {...settings} >
             <div className="slider-slide slide-1">
               <div className="slide-text">
                 <div className="sh">
