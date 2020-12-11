@@ -143,13 +143,13 @@ class Home extends React.Component {
         console.log("Lat: " + position.coords.latitude + " Long: " + position.coords.longitude);
     }
 
+    // {this.getUserLocation()}
     // style={this.state.loading === true ? {opacity: 0} : {opacity: 1}}
     // Add this line to element to change capacity based on loading status
     // Won't work in SimpleSlider because it's checking the Home component's state which the slider doesn't have access to
     render(){
         return (
             <div className="container">
-                    {this.getUserLocation()}
                     { this.state.loading === true && this.state.generalData.date === "one sec pls" ? <span class="loader">Loading...</span> : <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
