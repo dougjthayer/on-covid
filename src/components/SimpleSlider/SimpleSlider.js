@@ -18,7 +18,6 @@ class simpleSlider extends React.Component {
         super(props);
 
         this.state = {
-            noData: false,
             modalToggle: false,
             newInfectionsChangeText: "",
             newInfectionsChangeArrow: "",
@@ -32,7 +31,6 @@ class simpleSlider extends React.Component {
 
         this.getHighest = this.getHighest.bind(this);
         this.setGraphHeights = this.setGraphHeights.bind(this);
-        this.checkForData = this.checkForData.bind(this);
         this.infectionsChange = this.infectionsChange.bind(this);
         this.toggleAboutModal = this.toggleAboutModal.bind(this);
     }
@@ -44,7 +42,6 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("testsCompleted");
             this.setGraphHeights("deathsToday");
             this.setGraphHeights("hospitalized");
-            this.checkForData();
             this.infectionsChange();
         }
     }
@@ -82,6 +79,7 @@ class simpleSlider extends React.Component {
         //Get object with highest value for desired property
         var highest = this.getHighest(property);
         var array = [];
+       
         let parsedArray = [].concat(this.props.pastWeekInfections);
 
         switch(property){
@@ -130,21 +128,6 @@ class simpleSlider extends React.Component {
         }
     }
 
-    checkForData(){
-        //Check if today's data is on the sheet yet
-        let length = this.props.pastWeekInfections.length - 1;
-        let today = Date.now();
-        //let maybeToday = Date(this.props.pastWeekInfections[length].date);
-        //console.log(today + " " + maybeToday);
-        if(this.props.pastWeekInfections[length].date === today
-            && this.props.pastWeekInfections[length].newInfectionsToday === null
-            && this.props.countyData[1].newInfectionsToday === null){
-                this.setState({ noData : true })
-            }
-            else
-                this.setState({ noData: false })
-    }
-
     infectionsChange(){
         if(this.props.newInfectionsIncrease === true){
             this.setState({
@@ -182,7 +165,7 @@ class simpleSlider extends React.Component {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
     //Remove negative sign if change is negative
-    let infectionPercentChange = String(this.props.generalData.newInfectionsPercentChange);
+    let infectionPercentChange = String(this.props.todaysData.newInfectionsPercentChange);
     infectionPercentChange = infectionPercentChange.replace("-","");
 
 
@@ -230,7 +213,7 @@ class simpleSlider extends React.Component {
           <span className="modal-question">Where does the data come from?</span>
           <span className="modal-answer">Our data comes directly from the Government of Ontario. Please visit <a href="https://data.ontario.ca/">data.ontario.ca</a> for more information.</span>
         </div>
-        <div className={this.state.noData === true ? "no-data-show" : "no-data-hide"} >
+        <div className={this.props.noData === true ? "no-data-show" : "no-data-hide"} >
             <span className="no-data-heading">today's data not available yet</span>
             <span className="no-data-text">check back soon, we'll update as soon as it's here</span>
         </div>
@@ -238,7 +221,7 @@ class simpleSlider extends React.Component {
             <div className="slider-slide slide-1">
               <div className="slide-text">
                 <div className="sh">
-                  <span className="report-date">{this.props.generalData.date}</span>
+                  <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
                   <div className="sb-inner">
@@ -255,7 +238,7 @@ class simpleSlider extends React.Component {
                     </svg>
                     <span className="small-stat"><em>{this.state.newInfectionsChangeArrow}</em> {infectionPercentChange}</span>
                     <span className="small-title">{this.state.newInfectionsChangeText}</span>
-                    <span className="big-stat"><em className={this.props.generalData.recordHigh === "true" ? "record-show" : "record-hide"}>new daily record</em> {this.props.generalData.newInfectionsToday}</span>
+                    <span className="big-stat"><em className={this.props.todaysData.recordHigh === "true" ? "record-show" : "record-hide"}>new daily record</em> {this.props.todaysData.newInfectionsToday}</span>
                     <h2>New Infections</h2>
                   </div>
                 </div>
@@ -275,7 +258,7 @@ class simpleSlider extends React.Component {
             <div className="slider-slide slide-2">
               <div className="slide-text">
                 <div className="sh">
-                  <span className="report-date">{this.props.generalData.date}</span>
+                  <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
                   <div className="sb-inner">
@@ -290,9 +273,9 @@ class simpleSlider extends React.Component {
                       </clipPath>
                       </defs>
                     </svg>
-                    <span className="small-stat">{this.props.generalData.testsPositivity}%</span>
+                    <span className="small-stat">{this.props.todaysData.testsPositivity}%</span>
                     <span className="small-title">Positive Today</span>
-                    <span className="big-stat">{this.props.generalData.testsCompleted}</span>
+                    <span className="big-stat">{this.props.todaysData.testsCompleted}</span>
                     <h2>Tests Completed</h2>
                   </div>
                 </div>
@@ -312,7 +295,7 @@ class simpleSlider extends React.Component {
             <div className="slider-slide slide-3">
               <div className="slide-text">
                 <div className="sh">
-                  <span className="report-date">{this.props.generalData.date}</span>
+                  <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
                   <div className="sb-inner">
@@ -327,9 +310,9 @@ class simpleSlider extends React.Component {
                       </clipPath>
                       </defs>
                     </svg>
-                    <span className="small-stat">{this.props.generalData.deathsToday}</span>
+                    <span className="small-stat">{this.props.todaysData.deathsToday}</span>
                     <span className="small-title">Deaths Today</span>
-                    <span className="big-stat">{this.props.generalData.deathsTotal}</span>
+                    <span className="big-stat">{this.props.todaysData.deathsTotal}</span>
                     <h2>Total Deaths</h2>
                   </div>
                 </div>
@@ -349,7 +332,7 @@ class simpleSlider extends React.Component {
             <div className="slider-slide slide-4">
               <div className="slide-text">
                 <div className="sh">
-                  <span className="report-date">{this.props.generalData.date}</span>
+                  <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
                   <div className="sb-inner">
@@ -364,9 +347,9 @@ class simpleSlider extends React.Component {
                       </clipPath>
                       </defs>
                     </svg>
-                    <span className="small-stat">{this.props.generalData.icu} <em>{this.props.generalData.ventilator}</em></span>
+                    <span className="small-stat">{this.props.todaysData.icu} <em>{this.props.todaysData.ventilator}</em></span>
                     <span className="small-title">ICU / Ventilator</span>
-                    <span className="big-stat">{this.props.generalData.hospitalized}</span>
+                    <span className="big-stat">{this.props.todaysData.hospitalized}</span>
                     <h2>Hospitalized</h2>
                   </div>
                 </div>
@@ -386,7 +369,7 @@ class simpleSlider extends React.Component {
             <div className="slider-slide slide-5">
               <div className="slide-text">
                 <div className="sh">
-                  <span className="report-date">{this.props.generalData.date}</span>
+                  <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
                   <h2>Cases by County</h2>

@@ -29,31 +29,20 @@ class Home extends React.Component {
         super(props);
         this.state = {
             loading: false,
+            noData: false,
+            todaysData: [],
+            indexForToday: -1,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
             newInfectionsIncrease: false,
-            //Ontario-wide data
-            generalData: {
-                date: "one sec pls",
-                newInfectionsToday: 0,
-                newInfectionsYesterday: 0,
-                newInfectionsPercentChange: 0,
-                deathsToday: 0,
-                deathsTotal: 0,
-                testsCompleted: 0,
-                testPositivity: 0,
-                hospitalized: 0,
-                icu: 0,
-                icuPercent: 0,
-                ventilator: 0,
-                ventilatorPercent: 0,
-            },
             //Individual county data
             countyData: "",
             //General data for the entire week
             pastWeekInfections: ""
         }
         this.init = this.init.bind(this);
+        this.checkForData = this.checkForData.bind(this);
+        this.setInfectionChangeText = this.setInfectionChangeText.bind(this);
         this.populateData = this.populateData.bind(this);
         this.getUserLocation = this.getUserLocation.bind(this);
         this.displayLocation = this.displayLocation.bind(this);
@@ -82,16 +71,42 @@ class Home extends React.Component {
         .catch((err) => console.warn(err))
     }
 
+    checkForData(){
+        //Check if today's data is on the sheet yet
+        let length = this.state.pastWeekInfections.length - 1;
+        if(this.state.pastWeekInfections[length].newInfectionsToday === "#N/A"){
+            this.setState({ 
+                noData: true,
+                todaysData: this.state.pastWeekInfections[length - 1],
+                indexForToday: length - 1
+            })
+        }
+        else
+            this.setState({ 
+              noData: false,
+              todaysData: this.state.pastWeekInfections[length],
+              indexForToday: length
+            })
+    }
+
+    setInfectionChangeText(){
+        //"↓ Decrease today"
+        //"↑ Increase today"
+        //Set text based on case growth, used in slide 1 of slider
+        if (Math.sign(parseFloat(this.state.pastWeekInfections[this.state.indexForToday].newInfectionsPercentChange)) === 1)
+            this.setState({ newInfectionsIncrease: true })
+        else
+            this.setState({ newInfectionsIncrease: false })
+        this.setState({ loading: false })
+    }
+
     populateData(data, tabletop){
-        //Grab today's stats from "dataSnapshot" sheet tab, using last element for today's data
-        let todaysData = tabletop.sheets("dataSnapshot").elements[6];
         //Grab county stats from "countyRank" sheet tab
         let countyData = tabletop.sheets("countyRank").all();
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         //Debug to console
 
-        // console.log(todaysData);
         // console.log(countyData);
         // console.log(weeksData);
 
@@ -99,34 +114,13 @@ class Home extends React.Component {
         //County data is left as-is and passed to slider for sake of simplicity
         //Weekly data is the same
         this.setState({
-            generalData: {
-                date: todaysData.date,
-                newInfectionsToday: todaysData.newInfectionsToday,
-                newInfectionsYesterday: todaysData.newInfectionsYesterday,
-                newInfectionsPercentChange: todaysData.newInfectionsPercentChange,
-                deathsToday: todaysData.deathsToday,
-                deathsTotal: todaysData.deathsTotal,
-                testsCompleted: todaysData.testsCompleted,
-                testsPositivity: todaysData.testsPositivity,
-                hospitalized: todaysData.hospitalized,
-                icu: todaysData.icu,
-                icuPercent: todaysData.icuPercent,
-                ventilator: todaysData.ventilator,
-                ventilatorPercent: todaysData.ventilatorPercent,
-                recordHigh: todaysData.recordHigh
-            },
+            indexForToday: weeksData.length - 1,
             countyData: countyData,
             pastWeekInfections: weeksData
         })
 
-        //"↓ Decrease today"
-        //"↑ Increase today"
-        //Set text based on case growth, used in slide 1 of slider
-        if (Math.sign(parseFloat(todaysData.newInfectionsPercentChange)) === 1)
-            this.setState({ newInfectionsIncrease: true })
-        else
-            this.setState({ newInfectionsIncrease: false })
-        this.setState({ loading: false })
+        this.checkForData();
+        this.setInfectionChangeText();
     }
 
     //Get user location if they allow it, pass it to display function
@@ -150,7 +144,7 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                    { this.state.loading === true && this.state.generalData.date === "one sec pls" ? <span class="loader">Loading...</span> : <SimpleSlider generalData={this.state.generalData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }
