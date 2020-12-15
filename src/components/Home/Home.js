@@ -31,6 +31,7 @@ class Home extends React.Component {
             loading: false,
             noData: false,
             todaysData: [],
+            noCommasData: [],
             indexForToday: -1,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
@@ -105,6 +106,7 @@ class Home extends React.Component {
         let countyData = tabletop.sheets("countyRank").all();
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
+        let noCommas = tabletop.sheets("dataSnapshotNoCommas").all();
         //Debug to console
 
         // console.log(countyData);
@@ -116,7 +118,8 @@ class Home extends React.Component {
         this.setState({
             indexForToday: weeksData.length - 1,
             countyData: countyData,
-            pastWeekInfections: weeksData
+            pastWeekInfections: weeksData,
+            noCommasData: noCommas
         })
 
         this.checkForData();
@@ -144,7 +147,7 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }
