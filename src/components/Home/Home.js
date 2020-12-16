@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabletop from 'tabletop';
 import SimpleSlider from '../SimpleSlider/SimpleSlider'
+import axios from 'axios';
 
 // Import css files
 import 'slick-carousel/slick/slick.css';
@@ -9,7 +10,7 @@ import './Home.css';
 
 // const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
 const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
-
+const apiKey = "AIzaSyB50W-Au76ibJVnFfKiYcJPMpON7G0A_hw";
 /* IF CHANGE TO PAPA PARSE IS NECESSARY
 CHANGE INIT FUNCTION
     init(){
@@ -46,12 +47,13 @@ class Home extends React.Component {
         this.setInfectionChangeText = this.setInfectionChangeText.bind(this);
         this.populateData = this.populateData.bind(this);
         this.getUserLocation = this.getUserLocation.bind(this);
-        this.displayLocation = this.displayLocation.bind(this);
+        this.getUserCounty = this.getUserCounty.bind(this);
     }
 
     //runs init method on component mount
     componentDidMount(){
         this.init();
+        this.getUserLocation();
     }
 
     componentWillUnmount(){
@@ -126,18 +128,23 @@ class Home extends React.Component {
         this.setInfectionChangeText();
     }
 
-    //Get user location if they allow it, pass it to display function
+    //Get user location if they allow it, pass it to Google API fetch function
     getUserLocation(){
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.displayLocation);
+            navigator.geolocation.getCurrentPosition(this.getUserCounty);
         } else {
            console.log("Geolocation not supported");
         }
     }
 
-    //Display user location, currently in console
-    displayLocation(position){
-        console.log("Lat: " + position.coords.latitude + " Long: " + position.coords.longitude);
+    //Request user location data from Google API
+    getUserCounty(location){
+        let latlong = location.coords.latitude + "," + location.coords.longitude;
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latlong+'&key='+apiKey)
+            .then(({data}) => {        
+                console.log(data);
+                console.log("User located in: " + data.results[5].address_components[0].short_name);
+            })
     }
 
     // {this.getUserLocation()}

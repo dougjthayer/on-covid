@@ -55,7 +55,6 @@ class simpleSlider extends React.Component {
             case param.INF:
                 //Sort array by property
                 sortedArray.sort((a,b) => (a.newInfectionsToday > b.newInfectionsToday ? 1 : -1));
-                console.log(sortedArray);
             //Return highest sorted element and index of object in original array
             return sortedArray[sortedArray.length - 1];
 
