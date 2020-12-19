@@ -77,6 +77,25 @@ body {
   line-height: 21px;
 }
 
+.county-cases {
+  color: white;
+  z-index: 10000;
+}
+
+.county-cases-active {
+  color: black;
+  z-index: 10000;
+}
+
+.county-region {
+  color: white;
+  z-index: 10000;
+}
+
+.county-region-active {
+  color: black;
+  z-index: 10000;
+}
 /* pagination */
 .slick-dots {
   position: absolute;

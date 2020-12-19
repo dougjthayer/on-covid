@@ -11,6 +11,7 @@ import './Home.css';
 // const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
 const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
 const apiKey = "AIzaSyB50W-Au76ibJVnFfKiYcJPMpON7G0A_hw";
+
 /* IF CHANGE TO PAPA PARSE IS NECESSARY
 CHANGE INIT FUNCTION
     init(){
@@ -24,7 +25,6 @@ CHANGE INIT FUNCTION
 ADD IMPORT
     import Papa from 'papaparse';
 */
-
 class Home extends React.Component {
     constructor(props){
         super(props);
@@ -34,13 +34,17 @@ class Home extends React.Component {
             todaysData: [],
             noCommasData: [],
             indexForToday: -1,
+            userLat: 0,
+            userLong: 0,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
             newInfectionsIncrease: false,
             //Individual county data
             countyData: "",
             //General data for the entire week
-            pastWeekInfections: ""
+            pastWeekInfections: "",
+            //Testing health unit locations
+            healthUnits: ""
         }
         this.init = this.init.bind(this);
         this.checkForData = this.checkForData.bind(this);
@@ -109,10 +113,12 @@ class Home extends React.Component {
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         let noCommas = tabletop.sheets("dataSnapshotNoCommas").all();
+        let healthUnitInfo = tabletop.sheets("healthUnitInfo").all();
         //Debug to console
 
         // console.log(countyData);
         // console.log(weeksData);
+        //console.log(healthUnitInfo);
 
         //Set Ontario-wide stats and county stats
         //County data is left as-is and passed to slider for sake of simplicity
@@ -121,7 +127,8 @@ class Home extends React.Component {
             indexForToday: weeksData.length - 1,
             countyData: countyData,
             pastWeekInfections: weeksData,
-            noCommasData: noCommas
+            noCommasData: noCommas,
+            healthUnits: healthUnitInfo
         })
 
         this.checkForData();
@@ -139,12 +146,16 @@ class Home extends React.Component {
 
     //Request user location data from Google API
     getUserCounty(location){
+        this.setState({ userLat: location.coords.latitude, userLong: location.coords.longitude })
+        
+        /*Google API shit, maybe fuck this shit, we'll see
+        let test = "48.693584, -93.635469";
         let latlong = location.coords.latitude + "," + location.coords.longitude;
-        axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+latlong+'&key='+apiKey)
-            .then(({data}) => {        
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+test+'&result_type=administrative_area_level_2&key='+apiKey)
+            .then(({data}) => {       
                 console.log(data);
-                console.log("User located in: " + data.results[5].address_components[0].short_name);
-            })
+                console.log("User located in: " + data.results[0].address_components[0].short_name);
+            })*/
     }
 
     // {this.getUserLocation()}
@@ -154,7 +165,7 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider healthUnits = {this.state.healthUnits} userLong = {this.state.userLong} userLat = {this.state.userLat} noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }

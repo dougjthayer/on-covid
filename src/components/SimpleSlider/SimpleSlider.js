@@ -1,5 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
+import { SphericalUtil, PolyUtil } from "node-geometry-library";
 
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -19,6 +20,10 @@ class simpleSlider extends React.Component {
 
         this.state = {
             modalToggle: false,
+            //false show county rank, true show health unit data
+            countySlideToggle: false,
+            healthUnitData: [],
+            userHealthUnit: "",
             newInfectionsChangeText: "",
             newInfectionsChangeArrow: "",
             newInfectionsPercentChange: "",
@@ -33,6 +38,8 @@ class simpleSlider extends React.Component {
         this.setGraphHeights = this.setGraphHeights.bind(this);
         this.infectionsChange = this.infectionsChange.bind(this);
         this.toggleAboutModal = this.toggleAboutModal.bind(this);
+        this.findHealthUnit = this.findHealthUnit.bind(this);
+        this.toggleCountySlide = this.toggleCountySlide.bind(this);
     }
 
     componentDidMount(){
@@ -43,6 +50,7 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("deathsToday");
             this.setGraphHeights("hospitalized");
             this.infectionsChange();
+            this.findHealthUnit();
         }
     }
 
@@ -128,6 +136,7 @@ class simpleSlider extends React.Component {
     }
 
     infectionsChange(){
+      //Set data for case increase according to bool prop
         if(this.props.newInfectionsIncrease === true){
             this.setState({
                 newInfectionsChangeText: "Increase today",
@@ -140,9 +149,28 @@ class simpleSlider extends React.Component {
             })
         }
     }
-
+    
     toggleAboutModal(){
         this.setState({ modalToggle: !this.state.modalToggle })
+    }
+    
+    findHealthUnit(){
+      var array = [];
+      let lat = this.props.userLat;
+      let long = this.props.userLong;
+
+      for (let i=0;i<this.props.healthUnits.length;i++){
+        let dist = SphericalUtil.computeDistanceBetween({'lat': lat, 'lng': long}, {'lat': this.props.healthUnits[i].latitude, 'lng': this.props.healthUnits[i].longitude});
+        array.splice(i,0,{key: i, dist: dist});
+      }
+
+      array.sort((a,b) => a.dist > b.dist ? 1 : -1);
+      this.setState({ healthUnitData: this.props.healthUnits[array[0].key], userHealthUnit: this.props.healthUnits[array[0].key].PHU});
+      console.log(this.props.healthUnits[array[0].key]);
+    }
+  
+    toggleCountySlide(){
+      this.setState({ countySlideToggle: !this.state.modalToggle })
     }
 
   render() {
@@ -166,7 +194,6 @@ class simpleSlider extends React.Component {
     //Remove negative sign if change is negative
     let infectionPercentChange = String(this.props.todaysData.newInfectionsPercentChange);
     infectionPercentChange = infectionPercentChange.replace("-","");
-
 
     //If props are received and not empty and not "#N/A" then render county data
     let renderCountyData = this.props && this.props.countyData.length > 0 && this.props.countyData[1].cases !== "#N/A" ?
@@ -372,6 +399,7 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sb">
                   <h2>Cases by County</h2>
+                  <span className={this.state.countySlideToggle === false ? "county-cases-active" : "county-cases"} onClick={this.toggleCountySlide}>Most Cases</span><span className={this.state.countySlideToggle === true ? "county-region-active" : "county-region"} onClick={this.toggleCountySlide}>My Region</span>
                   <ul className="county-list">
                       {renderCountyData}
                   </ul>
