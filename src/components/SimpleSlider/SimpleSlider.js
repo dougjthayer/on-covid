@@ -20,7 +20,7 @@ class simpleSlider extends React.Component {
 
         this.state = {
             modalToggle: false,
-            //false show county rank, true show health unit data
+            //slide 5 -> false show county rank, true show health unit data
             countySlideToggle: false,
             locationRetrieved: false,
             healthUnitData: [],
@@ -62,6 +62,7 @@ class simpleSlider extends React.Component {
         }
     }
 
+    //Get highest value object from array, used for graphs
     getHighest(property){
         //Copy data into new array to avoid mutating props
         let sortedArray = [].concat(this.props.noCommasData);
@@ -92,6 +93,7 @@ class simpleSlider extends React.Component {
         }
     }
 
+    //Set graph heights
     setGraphHeights(property) {
         //Get object with highest value for desired property
         var highest = this.getHighest(property);
@@ -143,6 +145,7 @@ class simpleSlider extends React.Component {
         }
     }
 
+    //Determine whether infections have risen or dropped since yesterday based on props info
     infectionsChange(){
       //Set data for case increase according to bool prop
         if(this.props.newInfectionsIncrease === true){
@@ -162,22 +165,26 @@ class simpleSlider extends React.Component {
         this.setState({ modalToggle: !this.state.modalToggle })
     }
     
+    //Find closest testing center to user location and determine health unit from that
     findHealthUnit(){
       var array = [];
       let lat = this.state.userLat;
       let long = this.state.userLong;
 
+      //Get distances from user to all testing centers
       for (let i=0;i<this.props.healthUnits.length;i++){
         let dist = SphericalUtil.computeDistanceBetween({'lat': lat, 'lng': long}, {'lat': this.props.healthUnits[i].latitude, 'lng': this.props.healthUnits[i].longitude});
         array.splice(i,0,{key: i, dist: dist});
       }
 
+      //Sort array of distances, first element is closest testing center
       array.sort((a,b) => a.dist > b.dist ? 1 : -1);
       this.setState({ healthUnitData: this.props.healthUnits[array[0].key], userHealthUnit: this.props.healthUnits[array[0].key].PHU});      
       this.getHealthUnitData();
       this.getUserZone();
     }
 
+    //Get user's location
     getUserLocation(){
       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(this.setUserLocation);
@@ -186,6 +193,7 @@ class simpleSlider extends React.Component {
       }
     }
 
+    //Set user long and lat to state, and set location retrieved flag to true
     setUserLocation(location){
       this.setState({ userLat: location.coords.latitude, userLong: location.coords.longitude, locationRetrieved: true });
       this.findHealthUnit();
@@ -195,9 +203,12 @@ class simpleSlider extends React.Component {
       this.setState({ countySlideToggle: toggle })
     }
 
+    //Get data for user's health unit
     getHealthUnitData(){
       var index;
       var unit = this.state.userHealthUnit;
+
+      //Split string of health unit name to be able to search for first word in countyName
       unit = unit.split(" ");
       for(let i=0;i<this.props.countyData.length;i++){
         let name = this.props.countyData[i].countyName;
@@ -207,6 +218,7 @@ class simpleSlider extends React.Component {
       this.setState({ userCountyData: this.props.countyData[index]});
     }
 
+    //Find user's health unit in zone data and set to state
     getUserZone(){
       for(let i=0;i<this.props.zoneStatus.length;i++){
         if(this.state.userHealthUnit === this.props.zoneStatus[i].Reporting_PHU)

@@ -30,11 +30,16 @@ class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            //Loading and noData flags
             loading: false,
             noData: false,
+            //Todays data with commas
             todaysData: [],
+            //Todays data with no commas
             noCommasData: [],
+            //List of statuses for all zones
             zoneStatus: [],
+            //Index to determine where today's date is in array of data
             indexForToday: -1,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
@@ -43,7 +48,7 @@ class Home extends React.Component {
             countyData: "",
             //General data for the entire week
             pastWeekInfections: "",
-            //Testing health unit locations
+            //Health unit locations
             healthUnits: ""
         }
         this.init = this.init.bind(this);
@@ -75,9 +80,12 @@ class Home extends React.Component {
         .catch((err) => console.warn(err))
     }
 
+    //Check if today's data is on the sheet yet
     checkForData(){
-        //Check if today's data is on the sheet yet
+        //Get length of array
         let length = this.state.pastWeekInfections.length - 1;
+        //If data is not available for today, set noData flag to true
+        //Todays data to yesterday's and index to length - 1 (today is last in array, so yesterday is second last)
         if(this.state.pastWeekInfections[length].newInfectionsToday === "#N/A"){
             this.setState({ 
                 noData: true,
@@ -85,6 +93,7 @@ class Home extends React.Component {
                 indexForToday: length - 1
             })
         }
+        //Otherwise set to flag to false, todays data to today and index to last element
         else
             this.setState({ 
               noData: false,
@@ -93,10 +102,13 @@ class Home extends React.Component {
             })
     }
 
+    //Set text and arrow for infection change
     setInfectionChangeText(){
         //"↓ Decrease today"
         //"↑ Increase today"
         //Set text based on case growth, used in slide 1 of slider
+        
+        //Math.sign returns 1 if the number is positive, -1 if negative
         if (Math.sign(parseFloat(this.state.pastWeekInfections[this.state.indexForToday].newInfectionsPercentChange)) === 1)
             this.setState({ newInfectionsIncrease: true })
         else
@@ -106,22 +118,24 @@ class Home extends React.Component {
 
     populateData(data, tabletop){
         //Grab county stats from "countyRank" sheet tab
+        //Remove last element because it's just column titles
         let countyData = tabletop.sheets("countyRank").all();
         countyData.splice(countyData.length-1,1);
+        //Grab zone status data from "zoneStatus" sheet tab
         let zoneData = tabletop.sheets("zoneStatus").all();
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
+        //Grab data with no commas for parsing purposes
         let noCommas = tabletop.sheets("dataSnapshotNoCommas").all();
+        //Grab health unit info from "healthUnitInfo" sheet tab
         let healthUnitInfo = tabletop.sheets("healthUnitInfo").all();
         //Debug to console
 
-         console.log(countyData);
+        //console.log(countyData);
         // console.log(weeksData);
         //console.log(healthUnitInfo);
 
-        //Set Ontario-wide stats and county stats
-        //County data is left as-is and passed to slider for sake of simplicity
-        //Weekly data is the same
+        //Put all data in state
         this.setState({
             indexForToday: weeksData.length - 1,
             countyData: countyData,
@@ -147,11 +161,6 @@ class Home extends React.Component {
                 console.log("User located in: " + data.results[0].address_components[0].short_name);
             })*/
     //}
-
-    // {this.getUserLocation()}
-    // style={this.state.loading === true ? {opacity: 0} : {opacity: 1}}
-    // Add this line to element to change capacity based on loading status
-    // Won't work in SimpleSlider because it's checking the Home component's state which the slider doesn't have access to
     render(){
         return (
             <div className="container">
