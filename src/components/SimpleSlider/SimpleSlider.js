@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { SphericalUtil, PolyUtil } from "node-geometry-library";
+import { SphericalUtil } from "node-geometry-library";
 
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -22,8 +22,13 @@ class simpleSlider extends React.Component {
             modalToggle: false,
             //false show county rank, true show health unit data
             countySlideToggle: false,
+            locationRetrieved: false,
             healthUnitData: [],
+            userCountyData: [],
             userHealthUnit: "",
+            userLat: 0,
+            userLong: 0,
+            userZoneStatus: "",
             newInfectionsChangeText: "",
             newInfectionsChangeArrow: "",
             newInfectionsPercentChange: "",
@@ -40,6 +45,10 @@ class simpleSlider extends React.Component {
         this.toggleAboutModal = this.toggleAboutModal.bind(this);
         this.findHealthUnit = this.findHealthUnit.bind(this);
         this.toggleCountySlide = this.toggleCountySlide.bind(this);
+        this.getUserLocation = this.getUserLocation.bind(this);
+        this.setUserLocation = this.setUserLocation.bind(this);
+        this.getHealthUnitData = this.getHealthUnitData.bind(this);
+        this.getUserZone = this.getUserZone.bind(this);
     }
 
     componentDidMount(){
@@ -50,7 +59,6 @@ class simpleSlider extends React.Component {
             this.setGraphHeights("deathsToday");
             this.setGraphHeights("hospitalized");
             this.infectionsChange();
-            this.findHealthUnit();
         }
     }
 
@@ -156,8 +164,8 @@ class simpleSlider extends React.Component {
     
     findHealthUnit(){
       var array = [];
-      let lat = this.props.userLat;
-      let long = this.props.userLong;
+      let lat = this.state.userLat;
+      let long = this.state.userLong;
 
       for (let i=0;i<this.props.healthUnits.length;i++){
         let dist = SphericalUtil.computeDistanceBetween({'lat': lat, 'lng': long}, {'lat': this.props.healthUnits[i].latitude, 'lng': this.props.healthUnits[i].longitude});
@@ -165,12 +173,45 @@ class simpleSlider extends React.Component {
       }
 
       array.sort((a,b) => a.dist > b.dist ? 1 : -1);
-      this.setState({ healthUnitData: this.props.healthUnits[array[0].key], userHealthUnit: this.props.healthUnits[array[0].key].PHU});
-      console.log(this.props.healthUnits[array[0].key]);
+      this.setState({ healthUnitData: this.props.healthUnits[array[0].key], userHealthUnit: this.props.healthUnits[array[0].key].PHU});      
+      this.getHealthUnitData();
+      this.getUserZone();
+    }
+
+    getUserLocation(){
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(this.setUserLocation);
+      } else {
+         console.log("Geolocation not supported");
+      }
+    }
+
+    setUserLocation(location){
+      this.setState({ userLat: location.coords.latitude, userLong: location.coords.longitude, locationRetrieved: true });
+      this.findHealthUnit();
     }
   
-    toggleCountySlide(){
-      this.setState({ countySlideToggle: !this.state.modalToggle })
+    toggleCountySlide(toggle){
+      this.setState({ countySlideToggle: toggle })
+    }
+
+    getHealthUnitData(){
+      var index;
+      var unit = this.state.userHealthUnit;
+      unit = unit.split(" ");
+      for(let i=0;i<this.props.countyData.length;i++){
+        let name = this.props.countyData[i].countyName;
+        if(name.search(unit[0]) !== -1)
+          index = i;
+      }
+      this.setState({ userCountyData: this.props.countyData[index]});
+    }
+
+    getUserZone(){
+      for(let i=0;i<this.props.zoneStatus.length;i++){
+        if(this.state.userHealthUnit === this.props.zoneStatus[i].Reporting_PHU)
+          this.setState({ userZoneStatus: this.props.zoneStatus[i].Status_PHU })
+      }
     }
 
   render() {
@@ -184,7 +225,7 @@ class simpleSlider extends React.Component {
         slidesToScroll: 1,
         className: 'slider',
         adaptiveHeight: true
-    };
+    }
 
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
     let vh = window.innerHeight * 0.01;
@@ -399,10 +440,48 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sb">
                   <h2>Cases by County</h2>
-                  <span className={this.state.countySlideToggle === false ? "county-cases-active" : "county-cases"} onClick={this.toggleCountySlide}>Most Cases</span><span className={this.state.countySlideToggle === true ? "county-region-active" : "county-region"} onClick={this.toggleCountySlide}>My Region</span>
-                  <ul className="county-list">
+                  <span className={this.state.countySlideToggle === false ? "cases-button-active" : "cases-button"} onClick={() => this.toggleCountySlide(false)}>Most Cases</span><span className={this.state.countySlideToggle === true ? "region-button-active" : "region-button"} onClick={() => this.toggleCountySlide(true)}>My Region</span>
+                  <ul className={this.state.countySlideToggle === false ? "county-list" : "county-list-hide"}>
                       {renderCountyData}
                   </ul>
+                  <button className={this.state.locationRetrieved === false ? "get-location-button" : "get-location-button-hide"} onClick={this.getUserLocation}>Get User Location</button>
+                  <div className={this.state.countySlideToggle === true && this.state.locationRetrieved === true ? "region-data" : "region-data-hide"}>
+                    <span className="big-stat">{this.state.userCountyData.cases}</span>
+                    <h2>new infections</h2>
+                    <h2>{this.state.userZoneStatus}</h2>
+                    <span className="small-title">status</span>
+
+                    <span className="small-title">nearest testing center:</span>
+                    <span className="small-title"><em>{this.state.healthUnitData.location_name}</em></span>
+                    <span className="small-title">{this.state.healthUnitData.address}</span>
+                    <span className="small-title">{this.state.healthUnitData.city} {this.state.healthUnitData.postal_code}</span>
+                    <span className="small-title">{this.state.healthUnitData.phone}</span>
+
+                    <span className="small-title">hours</span>
+                    <span className="small-title">monday {this.state.healthUnitData.monday}</span>
+                    <span className="small-title">tuesday {this.state.healthUnitData.tuesday}</span>
+                    <span className="small-title">wednesday {this.state.healthUnitData.wednesday}</span>
+                    <span className="small-title">thursday {this.state.healthUnitData.thursday}</span>
+                    <span className="small-title">friday {this.state.healthUnitData.friday}</span>
+                    <span className="small-title">saturday {this.state.healthUnitData.saturday}</span>
+                    <span className="small-title">sunday {this.state.healthUnitData.sunday}</span>
+                    
+                    <span className="small-title">additional information</span>
+                    <span className="small-title">appointments {this.state.healthUnitData.appointments === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">walk-ins {this.state.healthUnitData.walk_ins === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">drive-thru {this.state.healthUnitData.drive_through === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">accessible {this.state.healthUnitData.accessible === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">french {this.state.healthUnitData.french_language_services === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">asl interpretation {this.state.healthUnitData.asl_interpretation === "Yes" ? "✓" : "X"}</span>
+                    <span className="small-title">parking {this.state.healthUnitData.paid_parking === "Yes" ? "Paid" : "Free"}</span>
+                    <span className="small-title"><a href={this.state.healthUnitData.online_appointments}>book online</a></span>
+
+                    <span className="small-title">note:</span>
+                    <span className="small-title">{this.state.healthUnitData.additional_information}</span>
+
+                    <span className="small-title">more info:</span>
+                    <span className="small-title"><a href={this.state.healthUnitData.website}>{this.state.healthUnitData.website}</a></span>
+                  </div>
                 </div>
               </div>
             </div>

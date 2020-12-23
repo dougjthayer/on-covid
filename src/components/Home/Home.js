@@ -1,16 +1,17 @@
 import React from 'react';
 import Tabletop from 'tabletop';
-import SimpleSlider from '../SimpleSlider/SimpleSlider'
-import axios from 'axios';
+import SimpleSlider from '../SimpleSlider/SimpleSlider';
 
 // Import css files
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
 
-// const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
-const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
-const apiKey = "AIzaSyB50W-Au76ibJVnFfKiYcJPMpON7G0A_hw";
+const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
+// temp sheet URL in case oncovid breaks again
+// const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
+// Google API key
+//const apiKey = "AIzaSyB50W-Au76ibJVnFfKiYcJPMpON7G0A_hw";
 
 /* IF CHANGE TO PAPA PARSE IS NECESSARY
 CHANGE INIT FUNCTION
@@ -33,9 +34,8 @@ class Home extends React.Component {
             noData: false,
             todaysData: [],
             noCommasData: [],
+            zoneStatus: [],
             indexForToday: -1,
-            userLat: 0,
-            userLong: 0,
             //Increase today or Decrease today based on case growth from previous day
             //Used in slide 1 of slider
             newInfectionsIncrease: false,
@@ -50,14 +50,11 @@ class Home extends React.Component {
         this.checkForData = this.checkForData.bind(this);
         this.setInfectionChangeText = this.setInfectionChangeText.bind(this);
         this.populateData = this.populateData.bind(this);
-        this.getUserLocation = this.getUserLocation.bind(this);
-        this.getUserCounty = this.getUserCounty.bind(this);
     }
 
     //runs init method on component mount
     componentDidMount(){
         this.init();
-        this.getUserLocation();
     }
 
     componentWillUnmount(){
@@ -68,7 +65,7 @@ class Home extends React.Component {
     init(){
         this.setState({ loading: true })
         var tabletop = Tabletop.init({
-            key: tempURL,
+            key: sheetURL,
             simpleSheet: true,
             callback: this.populateData,
             orderby: "rank",
@@ -110,13 +107,15 @@ class Home extends React.Component {
     populateData(data, tabletop){
         //Grab county stats from "countyRank" sheet tab
         let countyData = tabletop.sheets("countyRank").all();
+        countyData.splice(countyData.length-1,1);
+        let zoneData = tabletop.sheets("zoneStatus").all();
         //Grab historical data from past week from "dataSnapshot" sheet tab
         let weeksData = tabletop.sheets("dataSnapshot").all();
         let noCommas = tabletop.sheets("dataSnapshotNoCommas").all();
         let healthUnitInfo = tabletop.sheets("healthUnitInfo").all();
         //Debug to console
 
-        // console.log(countyData);
+         console.log(countyData);
         // console.log(weeksData);
         //console.log(healthUnitInfo);
 
@@ -128,25 +127,16 @@ class Home extends React.Component {
             countyData: countyData,
             pastWeekInfections: weeksData,
             noCommasData: noCommas,
-            healthUnits: healthUnitInfo
+            healthUnits: healthUnitInfo,
+            zoneStatus: zoneData
         })
 
         this.checkForData();
         this.setInfectionChangeText();
     }
 
-    //Get user location if they allow it, pass it to Google API fetch function
-    getUserLocation(){
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.getUserCounty);
-        } else {
-           console.log("Geolocation not supported");
-        }
-    }
-
     //Request user location data from Google API
-    getUserCounty(location){
-        this.setState({ userLat: location.coords.latitude, userLong: location.coords.longitude })
+    //getUserCounty(location){
         
         /*Google API shit, maybe fuck this shit, we'll see
         let test = "48.693584, -93.635469";
@@ -156,7 +146,7 @@ class Home extends React.Component {
                 console.log(data);
                 console.log("User located in: " + data.results[0].address_components[0].short_name);
             })*/
-    }
+    //}
 
     // {this.getUserLocation()}
     // style={this.state.loading === true ? {opacity: 0} : {opacity: 1}}
@@ -165,7 +155,7 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider healthUnits = {this.state.healthUnits} userLong = {this.state.userLong} userLat = {this.state.userLat} noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider zoneStatus = {this.state.zoneStatus} healthUnits = {this.state.healthUnits} noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }
