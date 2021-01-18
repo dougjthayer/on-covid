@@ -45,7 +45,7 @@ body {
   background-repeat: no-repeat;
   background-position: 50% 60%;
 }
-.slide-5 .sb {
+.slide-6 .sb {
   display: block;
   height: calc(100% - 64px);
   max-width: 450px;
@@ -213,7 +213,21 @@ body {
 .slide-4 svg path {
   fill: #2F1E39;
 }
+
 .slide-5 {
+  color: #E1643A;
+  background: #E5E5E5;
+}
+
+.slide-5 .sb {
+  background-image: url('../../img/marker4.png');
+}
+
+.slide-5 svg path {
+  fill: #E1643A;
+}
+
+.slide-6 {
   color: #E1643A;
   background: #E5D0E2;
 }
@@ -300,6 +314,10 @@ h2 {
 }
 .slide-4 .graph span {
   background: #2F1E39;
+}
+
+.slide-5 .graph span {
+  background: #E1643A;
 }
 
 /* county list */

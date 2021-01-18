@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
 
-const sheetURL = "14L2_NpdD9oJaHVeGSBNDnmYqdgmakbbscUIsXP-fUic";
+const sheetURL = "1J_h6JRT_dmo32bTfeIaW8CtX0qUYXuqCJoTxE6-2Lpk";
 // temp sheet URL in case oncovid breaks again
 // const tempURL = "1TGP492L2wqXTz9JV_6bFA7SvlbB6w7_ImbuHblOQdzg";
 // Google API key
@@ -46,8 +46,8 @@ class Home extends React.Component {
             newInfectionsIncrease: false,
             //Individual county data
             countyData: "",
-            //General data for the entire week
-            pastWeekInfections: "",
+            //General data
+            provinceData: "",
             //Health unit locations
             healthUnits: ""
         }
@@ -82,23 +82,21 @@ class Home extends React.Component {
 
     //Check if today's data is on the sheet yet
     checkForData(){
-        //Get length of array
-        let length = this.state.pastWeekInfections.length - 1;
         //If data is not available for today, set noData flag to true
         //Todays data to yesterday's and index to length - 1 (today is last in array, so yesterday is second last)
-        if(this.state.pastWeekInfections[length].newInfectionsToday === "#N/A"){
+        if(this.state.provinceData[0].newInfectionsToday === "#N/A"){
             this.setState({ 
                 noData: true,
-                todaysData: this.state.pastWeekInfections[length - 1],
-                indexForToday: length - 1
+                todaysData: this.state.provinceData[1],
+                indexForToday: 1
             })
         }
         //Otherwise set to flag to false, todays data to today and index to last element
         else
             this.setState({ 
               noData: false,
-              todaysData: this.state.pastWeekInfections[length],
-              indexForToday: length
+              todaysData: this.state.provinceData[0],
+              indexForToday: 0
             })
     }
 
@@ -109,7 +107,7 @@ class Home extends React.Component {
         //Set text based on case growth, used in slide 1 of slider
         
         //Math.sign returns 1 if the number is positive, -1 if negative
-        if (Math.sign(parseFloat(this.state.pastWeekInfections[this.state.indexForToday].newInfectionsPercentChange)) === 1)
+        if (Math.sign(parseFloat(this.state.provinceData[this.state.indexForToday].newInfectionsPercentChange)) === 1)
             this.setState({ newInfectionsIncrease: true })
         else
             this.setState({ newInfectionsIncrease: false })
@@ -123,23 +121,23 @@ class Home extends React.Component {
         countyData.splice(countyData.length-1,1);
         //Grab zone status data from "zoneStatus" sheet tab
         let zoneData = tabletop.sheets("zoneStatus").all();
-        //Grab historical data from past week from "dataSnapshot" sheet tab
-        let weeksData = tabletop.sheets("dataSnapshot").all();
+        //Grab historical data from "dataSnapshot" sheet tab
+        let provinceData = tabletop.sheets("dataSnapshot").all();
         //Grab data with no commas for parsing purposes
         let noCommas = tabletop.sheets("dataSnapshotNoCommas").all();
         //Grab health unit info from "healthUnitInfo" sheet tab
         let healthUnitInfo = tabletop.sheets("healthUnitInfo").all();
+        
         //Debug to console
-
         //console.log(countyData);
-        // console.log(weeksData);
+        //console.log(provinceData);
         //console.log(healthUnitInfo);
 
         //Put all data in state
         this.setState({
-            indexForToday: weeksData.length - 1,
+            indexForToday: 0,
             countyData: countyData,
-            pastWeekInfections: weeksData,
+            provinceData: provinceData,
             noCommasData: noCommas,
             healthUnits: healthUnitInfo,
             zoneStatus: zoneData
@@ -164,7 +162,7 @@ class Home extends React.Component {
     render(){
         return (
             <div className="container">
-                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider zoneStatus = {this.state.zoneStatus} healthUnits = {this.state.healthUnits} noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} pastWeekInfections={this.state.pastWeekInfections} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
+                    { this.state.loading === true ? <span class="loader">Loading...</span> : <SimpleSlider zoneStatus = {this.state.zoneStatus} healthUnits = {this.state.healthUnits} noCommasData = {this.state.noCommasData} todaysData={this.state.todaysData} noData={this.state.noData} countyData={this.state.countyData} provinceData={this.state.provinceData} newInfectionsIncrease={this.state.newInfectionsIncrease}/>}
             </div>
         )
     }
