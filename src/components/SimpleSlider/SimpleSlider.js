@@ -503,13 +503,14 @@ class simpleSlider extends React.Component {
                   <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
-                  <h2>Cases by County</h2>
+                  <h2>{this.state.countySlideToggle === false ? "Cases by County" : "Region Data"}</h2>
                   <span className={this.state.countySlideToggle === false ? "cases-button-active" : "cases-button"} onClick={() => this.toggleCountySlide(false)}>Most Cases</span><span className={this.state.countySlideToggle === true ? "region-button-active" : "region-button"} onClick={() => this.toggleCountySlide(true)}>My Region</span>
                   <ul className={this.state.countySlideToggle === false ? "county-list" : "county-list-hide"}>
                       {renderCountyData}
                   </ul>
                   <button className={this.state.locationRetrieved === false ? "get-location-button" : "get-location-button-hide"} onClick={this.getUserLocation}>Get User Location</button>
                   <div className={this.state.countySlideToggle === true && this.state.locationRetrieved === true ? "region-data" : "region-data-hide"}>
+                    <h2>{this.state.healthUnitData.PHU}</h2>
                     <span className="big-stat">{this.state.userCountyData.cases}</span>
                     <h2>new infections</h2>
                     <h2>{this.state.userZoneStatus}</h2>
