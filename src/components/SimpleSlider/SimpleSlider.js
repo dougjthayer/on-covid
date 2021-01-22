@@ -338,13 +338,13 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sf">
                   <div className="graph">
-                    <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
-                    <span className="bar-2" style={{height: `${this.state.casesGraph[5]}%` }}>&nbsp;</span>
-                    <span className="bar-3" style={{height: `${this.state.casesGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-1 bar-today" style={{height: `${this.state.casesGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-2" style={{height: `${this.state.casesGraph[1]}%` }}>&nbsp;</span>
+                    <span className="bar-3" style={{height: `${this.state.casesGraph[2]}%` }}>&nbsp;</span>
                     <span className="bar-4" style={{height: `${this.state.casesGraph[3]}%` }}>&nbsp;</span>
-                    <span className="bar-5" style={{height: `${this.state.casesGraph[2]}%` }}>&nbsp;</span>
-                    <span className="bar-6" style={{height: `${this.state.casesGraph[1]}%` }}>&nbsp;</span>
-                    <span className="bar-7" style={{height: `${this.state.casesGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-5" style={{height: `${this.state.casesGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-6" style={{height: `${this.state.casesGraph[5]}%` }}>&nbsp;</span>
+                    <span className="bar-7" style={{height: `${this.state.casesGraph[6]}%` }}>&nbsp;</span>
                   </div>
                 </div>
               </div>
@@ -375,13 +375,13 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sf">
                   <div className="graph">
-                    <span className="bar-1 bar-today" style={{height: `${this.state.testsGraph[6]}%` }}>&nbsp;</span>
-                    <span className="bar-2" style={{height: `${this.state.testsGraph[5]}%` }}>&nbsp;</span>
-                    <span className="bar-3" style={{height: `${this.state.testsGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-1 bar-today" style={{height: `${this.state.testsGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-2" style={{height: `${this.state.testsGraph[1]}%` }}>&nbsp;</span>
+                    <span className="bar-3" style={{height: `${this.state.testsGraph[2]}%` }}>&nbsp;</span>
                     <span className="bar-4" style={{height: `${this.state.testsGraph[3]}%` }}>&nbsp;</span>
-                    <span className="bar-5" style={{height: `${this.state.testsGraph[2]}%` }}>&nbsp;</span>
-                    <span className="bar-6" style={{height: `${this.state.testsGraph[1]}%` }}>&nbsp;</span>
-                    <span className="bar-7" style={{height: `${this.state.testsGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-5" style={{height: `${this.state.testsGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-6" style={{height: `${this.state.testsGraph[5]}%` }}>&nbsp;</span>
+                    <span className="bar-7" style={{height: `${this.state.testsGraph[6]}%` }}>&nbsp;</span>
                   </div>
                 </div>
               </div>
@@ -412,13 +412,13 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sf">
                   <div className="graph">
-                    <span className="bar-1 bar-today" style={{height: `${this.state.deathsGraph[6]}%` }}>&nbsp;</span>
-                    <span className="bar-2" style={{height: `${this.state.deathsGraph[5]}%` }}>&nbsp;</span>
-                    <span className="bar-3" style={{height: `${this.state.deathsGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-1 bar-today" style={{height: `${this.state.deathsGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-2" style={{height: `${this.state.deathsGraph[1]}%` }}>&nbsp;</span>
+                    <span className="bar-3" style={{height: `${this.state.deathsGraph[2]}%` }}>&nbsp;</span>
                     <span className="bar-4" style={{height: `${this.state.deathsGraph[3]}%` }}>&nbsp;</span>
-                    <span className="bar-5" style={{height: `${this.state.deathsGraph[2]}%` }}>&nbsp;</span>
-                    <span className="bar-6" style={{height: `${this.state.deathsGraph[1]}%` }}>&nbsp;</span>
-                    <span className="bar-7" style={{height: `${this.state.deathsGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-5" style={{height: `${this.state.deathsGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-6" style={{height: `${this.state.deathsGraph[5]}%` }}>&nbsp;</span>
+                    <span className="bar-7" style={{height: `${this.state.deathsGraph[6]}%` }}>&nbsp;</span>
                   </div>
                 </div>
               </div>
@@ -449,13 +449,13 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sf">
                   <div className="graph">
-                    <span className="bar-1 bar-today" style={{height: `${this.state.hospGraph[6]}%` }}>&nbsp;</span>
-                    <span className="bar-2" style={{height: `${this.state.hospGraph[5]}%` }}>&nbsp;</span>
-                    <span className="bar-3" style={{height: `${this.state.hospGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-1 bar-today" style={{height: `${this.state.hospGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-2" style={{height: `${this.state.hospGraph[1]}%` }}>&nbsp;</span>
+                    <span className="bar-3" style={{height: `${this.state.hospGraph[2]}%` }}>&nbsp;</span>
                     <span className="bar-4" style={{height: `${this.state.hospGraph[3]}%` }}>&nbsp;</span>
-                    <span className="bar-5" style={{height: `${this.state.hospGraph[2]}%` }}>&nbsp;</span>
-                    <span className="bar-6" style={{height: `${this.state.hospGraph[1]}%` }}>&nbsp;</span>
-                    <span className="bar-7" style={{height: `${this.state.hospGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-5" style={{height: `${this.state.hospGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-6" style={{height: `${this.state.hospGraph[5]}%` }}>&nbsp;</span>
+                    <span className="bar-7" style={{height: `${this.state.hospGraph[6]}%` }}>&nbsp;</span>
                   </div>
                 </div>
               </div>
@@ -486,13 +486,13 @@ class simpleSlider extends React.Component {
                 </div>
                 <div className="sf">
                   <div className="graph">
-                    <span className="bar-1 bar-today" style={{height: `${this.state.vacGraph[6]}%` }}>&nbsp;</span>
-                    <span className="bar-2" style={{height: `${this.state.vacGraph[5]}%` }}>&nbsp;</span>
-                    <span className="bar-3" style={{height: `${this.state.vacGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-1 bar-today" style={{height: `${this.state.vacGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-2" style={{height: `${this.state.vacGraph[1]}%` }}>&nbsp;</span>
+                    <span className="bar-3" style={{height: `${this.state.vacGraph[2]}%` }}>&nbsp;</span>
                     <span className="bar-4" style={{height: `${this.state.vacGraph[3]}%` }}>&nbsp;</span>
-                    <span className="bar-5" style={{height: `${this.state.vacGraph[2]}%` }}>&nbsp;</span>
-                    <span className="bar-6" style={{height: `${this.state.vacGraph[1]}%` }}>&nbsp;</span>
-                    <span className="bar-7" style={{height: `${this.state.vacGraph[0]}%` }}>&nbsp;</span>
+                    <span className="bar-5" style={{height: `${this.state.vacGraph[4]}%` }}>&nbsp;</span>
+                    <span className="bar-6" style={{height: `${this.state.vacGraph[5]}%` }}>&nbsp;</span>
+                    <span className="bar-7" style={{height: `${this.state.vacGraph[6]}%` }}>&nbsp;</span>
                   </div>
                 </div>
               </div>
