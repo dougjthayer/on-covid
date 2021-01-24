@@ -503,12 +503,19 @@ class simpleSlider extends React.Component {
                   <span className="report-date">{this.props.todaysData.date}</span>
                 </div>
                 <div className="sb">
-                  <h2>{this.state.countySlideToggle === false ? "Cases by County" : "Region Data"}</h2>
+                  <h2>{this.state.countySlideToggle === false ? "Cases by County" : "Cases by Region"}</h2>
                   <span className={this.state.countySlideToggle === false ? "cases-button-active" : "cases-button"} onClick={() => this.toggleCountySlide(false)}>Most Cases</span><span className={this.state.countySlideToggle === true ? "region-button-active" : "region-button"} onClick={() => this.toggleCountySlide(true)}>My Region</span>
                   <ul className={this.state.countySlideToggle === false ? "county-list" : "county-list-hide"}>
                       {renderCountyData}
                   </ul>
-                  <button className={this.state.locationRetrieved === false ? "get-location-button" : "get-location-button-hide"} onClick={this.getUserLocation}>Get User Location</button>
+                  <div className={this.state.locationRetrieved === false ? "find-location-show" : "find-location-hide"}>
+                    <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M48 0C21.6 0 0 21.6 0 48C0 74.4 21.6 96 48 96C74.4 96 96 74.4 96 48C96 21.6 74.4 0 48 0ZM4 50H20C20.2 56.4 21 62.6 22.4 68H8.8C6 62.6 4.4 56.4 4 50ZM50 24V4.2C57.6 5.4 64.2 13 68 24H50ZM69.4 28C71 33.4 71.8 39.6 72 46H50V28H69.4ZM46 4.2V24H28C31.8 13 38.4 5.4 46 4.2ZM46 28V46H24C24.2 39.6 25 33.4 26.6 28H46ZM20 46H4C4.2 39.6 6 33.4 8.8 28H22.4C21 33.4 20.2 39.6 20 46ZM24 50H46V68H26.6C25.2 62.6 24.2 56.4 24 50ZM46 72V91.8C38.4 90.6 31.8 83 28 72H46ZM50 91.8V72H68C64.2 83 57.6 90.6 50 91.8ZM50 68V50H72C71.8 56.4 71 62.6 69.4 68H50ZM76 50H92C91.8 56.4 90 62.6 87.2 68H73.6C75 62.6 75.8 56.4 76 50ZM76 46C75.8 39.6 75 33.4 73.6 28H87.2C90 33.4 91.6 39.6 92 46H76ZM84.8 24H72.4C70 16.6 66.4 10.6 62.2 6.4C71.6 9.6 79.6 15.8 84.8 24ZM34 6.4C29.6 10.6 26 16.6 23.6 24H11.2C16.4 15.8 24.4 9.6 34 6.4ZM11.2 72H23.6C26 79.4 29.6 85.4 33.8 89.6C24.4 86.4 16.4 80.2 11.2 72ZM62 89.6C66.2 85.4 69.8 79.4 72.2 72H84.6C79.6 80.2 71.6 86.4 62 89.6Z" fill="#E1643A"/>
+                    </svg>
+                    <span className="small-stat">Enable Location</span>
+                    <span className="small-title">don't worry, we aren't being creepy or anything - we don't save any of this.</span>
+                    <button className="get-location-button" onClick={this.getUserLocation}>Find My Location</button>
+                  </div>
                   <div className={this.state.countySlideToggle === true && this.state.locationRetrieved === true ? "region-data" : "region-data-hide"}>
                     <h2>{this.state.healthUnitData.PHU}</h2>
                     <span className="big-stat">{this.state.userCountyData.cases}</span>
